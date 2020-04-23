@@ -1,42 +1,52 @@
 <template>
-  <div class="wrapper">
-    <div v-for="(project, index) in allProjects"
-         v-bind:key="project.id"
-         class="card">
-      <div class="cover"
-           @mouseenter="show = index"
-           @mouseleave="show = null">
-        <div class="img-holder"><img class="thumb"
-               :src="project.thumbnail" /></div>
-        <div :class="[show == index ? 'gradient' : '']"
-             class="backdrop"></div>
-        <div class="txt-holder">
-          <span :class="[show == index ? 'is-hover' : '']">{{
+  <div class="holder">
+    <div class="wrapper">
+      <!-- <h3>{{limit}}</h3> -->
+      <div v-for="(project, index) in allProjects.slice(start, limit)"
+           v-bind:key="project.id">
+        <div>
+          <div class="card">
+            <div class="cover"
+                 @mouseenter="show = index"
+                 @mouseleave="show = null">
+              <div class="img-holder"><img class="thumb"
+                     :src="project.thumbnail" /></div>
+              <div :class="[show == index ? 'gradient' : '']"
+                   class="backdrop visible"></div>
+              <div class="txt-holder">
+                <span class="visible"
+                      :class="[show == index ? 'is-hover' : '']">{{
             project.title
           }}</span>
-        </div>
-      </div>
-      <div class="subcover">
-        <div class="multiple"
-             v-if="Object.keys(project.author).length > 1">
-          <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
-        </div>
-        <div class="author"
-             v-else>
-          <img :src="project.profileimg" />
-          <a href="">{{ project.author[0] }} </a>
-        </div>
-        <div class="social">
-          <i class="fas fa-thumbs-up"></i>
-          <span class="likes">{{
-            new Intl.NumberFormat().format(project.likes)
+              </div>
+            </div>
+            <div class="subcover">
+              <div class="multiple"
+                   v-if="Object.keys(project.author).length > 1">
+                <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
+              </div>
+              <div class="author"
+                   v-else>
+                <img :src="project.profileimg" />
+                <!-- .substring(0, 15) + '...'  -->
+                <a href="">{{ project.author[0]}} </a>
+              </div>
+              <div class="social">
+                <i class="fas fa-thumbs-up"></i>
+                <span class="likes">{{
+            new Intl.NumberFormat().format(project.id)
           }}</span>
-          <i class="fas fa-eye"></i>
-          <span class="views">{{
+                <i class="fas fa-eye"></i>
+                <span class="views">{{
             new Intl.NumberFormat().format(project.views)
           }}</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -48,7 +58,15 @@ export default {
   data: () => ({
     show: null
   }),
-  computed: mapGetters(['allProjects'])
+  created() {
+    // this.limit = 35;
+    // this.start = 15;
+  },
+  computed: mapGetters(['allProjects']),
+  props: {
+    limit: Number,
+    start: Number
+  }
 };
 </script>
 
@@ -59,27 +77,76 @@ div {
 span {
   transition: color 0.2s ease;
 }
+.holder {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  justify-self: center;
+}
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1em;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25em;
   grid-auto-rows: minmax(100px, auto);
 }
+@media only screen and (max-width: 2130px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
+}
 
-@media only screen and (max-width: 880px) {
+@media only screen and (max-width: 1725px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .wrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 875px) {
   .wrapper {
     grid-template-columns: 1fr 1fr;
   }
 }
-@media only screen and (max-width: 460px) {
+@media only screen and (max-width: 605px) {
   .wrapper {
     grid-template-columns: 1fr;
   }
+  .holder {
+    width: auto !important;
+  }
+  .visible {
+    color: white;
+    display: inline-block !important;
+    opacity: 1 !important;
+  }
+}
+/* @media only screen and (max-width: 450px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+  .thumb {
+    width: 100%;
+  }
+  .holder {
+    width: -webkit-fill-available;
+  }
+} */
+
+.thumb {
+  width: 100%;
+}
+.holder {
+  width: -webkit-fill-available;
 }
 .card {
-  max-height: 404px;
-  min-width: 145px;
+  /* max-height: 404px; */
+  /* min-width: 145px; */
   width: auto;
   background: white;
 }
@@ -91,13 +158,14 @@ span {
   position: relative;
   width: 100%;
   cursor: pointer;
+  border-radius: 4px;
+  overflow: auto;
 }
 .img-holder {
-  border-radius: 0.25rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden !important;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* overflow: hidden !important; */
 }
 .subcover {
   display: flex;
@@ -115,21 +183,42 @@ span {
 }
 .author {
   font-weight: bold;
-
   font-size: 13px;
   line-height: 1.3;
+  -webkit-box-flex: 1;
+  flex: 1;
+  max-width: calc(404px - 130px);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .multiple {
   font-weight: bold;
   font-size: 13px;
   line-height: 1.3;
   margin-top: 2px;
+  -webkit-box-flex: 1;
+  flex: 1;
+  max-width: calc(404px - 130px);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .author a {
   position: relative;
-  top: -4px;
+  top: -6px;
   margin-left: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: #f9f9f9;
+  color: #2b2b2b;
+  font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
 }
 a {
   color: #191919;
@@ -141,10 +230,10 @@ a:hover {
 }
 .social {
   color: #696969;
-  margin-top: -2px;
+  margin-top: -4px;
 }
 .social span {
-  padding-left: 8px;
+  padding-left: 4px;
   font-weight: bold;
   font-size: 12px;
   cursor: default;
