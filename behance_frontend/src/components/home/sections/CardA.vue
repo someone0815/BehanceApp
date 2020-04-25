@@ -1,76 +1,70 @@
 <template>
-  <div class="holder">
-    <div class="wrapper">
-      <!-- <h3>{{limit}}</h3> -->
-      <div v-for="(project, index) in allProjects.slice(start, limit)"
-           v-bind:key="project.id">
-        <div>
-          <div class="card">
-            <div class="cover"
-                 @mouseenter="show = index"
-                 @mouseleave="show = null">
-              <div class="img-holder"><img class="thumb"
-                     :src="project.thumbnail" /></div>
-              <div :class="[show == index ? 'gradient' : '']"
-                   class="backdrop visible"></div>
-              <div class="txt-holder">
-                <span class="visible"
-                      :class="[show == index ? 'is-hover' : '']">{{
+  <div class="card">
+    <div class="cover"
+         @mouseenter="show = index"
+         @mouseleave="show = null">
+      <div class="img-holder"><img class="thumb"
+             :src="project.thumbnail" /></div>
+      <div :class="[show == index ? 'gradient' : '']"
+           class="backdrop visible"></div>
+      <div class="txt-holder">
+        <span class="visible"
+              :class="[show == index ? 'is-hover' : '']">{{
             project.title
           }}</span>
-              </div>
-            </div>
-            <div class="subcover">
-              <div class="multiple"
-                   v-if="Object.keys(project.author).length > 1">
-                <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
-              </div>
-              <div class="author"
-                   v-else>
-                <img :src="project.profileimg" />
-                <!-- .substring(0, 15) + '...'  -->
-                <a href="">{{ project.author[0]}} </a>
-              </div>
-              <div class="social">
-                <i class="fas fa-thumbs-up"></i>
-                <span class="likes">{{
-            new Intl.NumberFormat().format(project.id)
+      </div>
+    </div>
+    <div class="subcover">
+      <div class="multiple"
+           v-if="Object.keys(project.author).length > 1">
+        <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
+      </div>
+      <div class="author"
+           v-else>
+        <img :src="project.profileimg" />
+
+        <a href="">{{ project.author[0]}} </a>
+      </div>
+      <div class="social">
+        <i class="fas fa-thumbs-up"></i>
+        <span class="likes">{{
+            new Intl.NumberFormat().format(project.likes)
           }}</span>
-                <i class="fas fa-eye"></i>
-                <span class="views">{{
+        <i class="fas fa-eye"></i>
+        <span class="views">{{
             new Intl.NumberFormat().format(project.views)
           }}</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 export default {
-  name: 'Projects',
+  name: 'CardA',
   data: () => ({
     show: null
   }),
+
   created() {
     // this.limit = 35;
-    // this.start = 15;
+    // console.log(this.index);
   },
-  computed: mapGetters(['allProjects']),
   props: {
-    limit: Number,
-    start: Number
+    project: Object,
+    index: Number
   }
 };
 </script>
 
 <style scoped>
+@media only screen and (max-width: 605px) {
+  .visible {
+    color: white;
+    display: inline-block !important;
+    opacity: 1 !important;
+  }
+}
 div {
   transition: opacity 0.2s ease;
 }
@@ -83,60 +77,6 @@ span {
   width: fit-content;
   justify-self: center;
 }
-
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.25em;
-  grid-auto-rows: minmax(100px, auto);
-}
-@media only screen and (max-width: 2130px) {
-  .wrapper {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width: 1725px) {
-  .wrapper {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width: 1300px) {
-  .wrapper {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width: 875px) {
-  .wrapper {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media only screen and (max-width: 605px) {
-  .wrapper {
-    grid-template-columns: 1fr;
-  }
-  .holder {
-    width: auto !important;
-  }
-  .visible {
-    color: white;
-    display: inline-block !important;
-    opacity: 1 !important;
-  }
-}
-/* @media only screen and (max-width: 450px) {
-  .wrapper {
-    grid-template-columns: 1fr;
-  }
-  .thumb {
-    width: 100%;
-  }
-  .holder {
-    width: -webkit-fill-available;
-  }
-} */
 
 .thumb {
   width: 100%;
@@ -209,15 +149,15 @@ span {
 
 .author a {
   position: relative;
-  top: -6px;
+  top: -5px;
   margin-left: 4px;
-  font-size: 13px;
+  /* font-size: 13px; */
   font-weight: bold;
   background-color: #f9f9f9;
   color: #2b2b2b;
   font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.3;
 }
 a {

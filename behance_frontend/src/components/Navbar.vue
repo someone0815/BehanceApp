@@ -1,20 +1,27 @@
-
 <template>
   <div class="nav-holder">
-
     <div class="logo">
       <div class="ham-menu invisible">
-        <div class="item-holder "><a class="item "><i class="fas fa-bars"></i></a></div>
-      </div><a href="/"
+        <div class="item-holder ">
+          <a class="item "><i class="fas fa-bars"></i></a>
+        </div>
+      </div>
+      <a href="/"
          class="primary-logo">
-
         <Logo />
       </a>
     </div>
     <div class="centered-options visible">
-      <div class="item-holder "><a class="item active">Discover</a></div>
+      <router-link to="/">
+        <div class="item-holder ">
+          <a class="item">Discover</a>
+        </div>
+      </router-link>
       <div class="item-holder"><a class="item">Live</a></div>
       <div class="item-holder"><a class="item">Jobs</a></div>
+      <router-link to="/about">
+        <div class="item-holder"><a class="item">About</a></div>
+      </router-link>
 
       <a href=""
          class="btn mail"><span>Sign Up With Email</span></a>
@@ -28,13 +35,17 @@
     </div>
     <div class="login">
       <div class="search">
-        <div class="item-holder "><a class="item "><i class="fas fa-search"></i></a></div>
+        <div class="item-holder ">
+          <a class="item "><i class="fas fa-search"></i></a>
+        </div>
       </div>
       <div class="signin visible">
         <div class="item-holder "><a class="item ">Sign In</a></div>
       </div>
       <div class="weblink visible">
-        <div class="item-holder "><a class="item "><i class="fab fa-adobe"></i>Adobe</a></div>
+        <div class="item-holder ">
+          <a class="item "><i class="fab fa-adobe"></i>Adobe</a>
+        </div>
       </div>
     </div>
   </div>
@@ -51,7 +62,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @media only screen and (max-width: 1060px) {
   .visible {
     display: none !important;
@@ -68,6 +79,7 @@ export default {
 }
 a {
   transition: all 0.3s;
+  text-decoration: none;
 }
 .login {
   display: flex;
@@ -101,7 +113,7 @@ a {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.25;
-  padding: 8px 15px 8px;
+  padding: 7px 15px 8px;
   text-shadow: none;
   transition-duration: 300ms;
   text-decoration: none;
@@ -188,10 +200,11 @@ a {
   position: relative;
   vertical-align: top;
 }
-.active {
+.router-link-exact-active div a {
   color: white;
 }
 .nav-holder {
+  z-index: 30;
   display: flex;
   top: 0px;
   width: 100%;
@@ -202,7 +215,9 @@ a {
   flex-wrap: wrap;
   justify-content: space-between;
   position: sticky;
-  z-index: 1;
+  /* z-index: 1; */
+  /* backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.85); */
 }
 .logo {
   /* border: 1px #ccc solid; */

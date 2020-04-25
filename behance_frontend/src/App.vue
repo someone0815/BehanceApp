@@ -1,92 +1,59 @@
 <template>
   <div id="app">
-
     <Navbar />
-    <div class="container">
-      <Projects :start="0"
-                :limit="lim" />
-    </div>
-    <div class="container">
-      <h3>Section 1</h3>
-    </div>
-    <div class="container">
-      <Projects :start="lim"
-                :limit="lim*2" />
-    </div>
-    <div class="container">
-      <h3>Section 2</h3>
-    </div>
-    <div class="container">
-      <Projects :start="lim*2"
-                :limit="lim*3" />
-    </div>
-    <div class="container">
-      <h3>Section 3</h3>
-    </div>
-    <div class="container">
-      <Projects :start="lim*3"
-                :limit="lim*4" />
-    </div>
-    <div class="container">
-      <h3>Section 4</h3>
-    </div>
-    <div class="container">
-      <Projects :start="lim*4"
-                :limit="lim*5" />
-    </div>
+
+    <router-view />
   </div>
 </template>
 
 <script>
-import Projects from './components/Projects.vue';
 import Navbar from './components/Navbar.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar,
-    Projects
+    Navbar
   },
   created() {
-    window.addEventListener('resize', this.ColumnCalc);
-    this.ColumnCalc();
+    // window.addEventListener('resize', this.ColumnCalc);
+    // this.ColumnCalc();
   },
   destroyed() {
-    window.removeEventListener('resize', this.ColumnCalc);
-  },
-  props: {
-    lim: Number
-  },
-  methods: {
-    getWidth() {
-      return screen.width;
-    },
-    ColumnCalc() {
-      let w = window.innerWidth;
-      let num = 0;
-      switch (true) {
-        case w > 2130:
-          num = 18;
-          break;
-        case w > 1725:
-          num = 15;
-          break;
-        case w > 1300:
-          num = 12;
-          break;
-        case w > 875:
-          num = 9;
-          break;
-        case w > 605:
-          num = 6;
-          break;
-        default:
-          num = 3;
-          break;
-      }
-      this.lim = num;
-    }
+    // window.removeEventListener('resize', this.ColumnCalc);
   }
+  // props: {
+  //   lim: Number
+  // }
+  // methods: {
+  //   getWidth() {
+  //     return screen.width;
+  //   },
+  //   ColumnCalc() {
+  //     let w = window.innerWidth;
+  //     let num = 0;
+  //     switch (true) {
+  //       case w > 2130:
+  //         num = 18;
+  //         break;
+  //       case w > 1725:
+  //         num = 15;
+  //         break;
+  //       case w > 1300:
+  //         num = 12;
+  //         break;
+  //       case w > 875:
+  //         num = 9;
+  //         break;
+  //       case w > 605:
+  //         num = 6;
+  //         break;
+  //       default:
+  //         num = 3;
+  //         break;
+  //     }
+  //     this.lim = num;
+  //   }
+  // }
 };
 </script>
 
@@ -110,11 +77,140 @@ body {
   align-items: center;
   justify-content: center;
 }
-.cont {
-  width: 700px;
-  height: 900px;
-  background: gray;
-  display: block;
-  position: absolute;
+
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 100;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-thin.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-thin.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 100;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-thin-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-thin-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 200;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-extra-light.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-extra-light.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 200;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-extra-light-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-extra-light-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 300;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-light.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-light.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 300;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-light-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-light-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 400;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 600;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-semibold.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-semibold.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 600;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-semibold-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-semibold-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 800;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-bold.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-bold.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 800;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-bold-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-bold-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: normal;
+  font-weight: 900;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-black.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-black.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro';
+  font-style: italic;
+  font-weight: 900;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-black-italic.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminPro/acumin-black-italic.woff')
+      format('woff');
+}
+@font-face {
+  font-family: 'acumin-pro-wide';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminProWide/acumin-wide-regular.woff2')
+      format('woff2'),
+    url('https://a5.behance.net/8f48dba3136c6e2a73a11e4af1614f6a2178c76c/fonts/AcuminProWide/acumin-wide-regular.woff')
+      format('woff');
 }
 </style>

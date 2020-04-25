@@ -30,6 +30,53 @@ npm run lint
 serve -s dist
 ```
 
-### Customize configuration
+### Todo
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [ ] Backend Api
+  - [ ] Sign In
+  - [ ] Sign Up
+    - [ ] e-mail
+    - [ ] Third Party
+  - [ ] Profile
+  - [ ] Profile Edit
+  - [ ] Project
+    - [ ] API
+    - [ ] Builder
+    - [ ] Edit
+  - [ ] Views / Likes
+  - [ ] Collaboration
+  - [ ] Search
+  - [ ] Home
+  - [ ] Delete account
+  - [ ] CORS
+
+* [ ] Frontend
+  - [ ] Components
+    - [ ] Search
+    - [x] Navbar
+    - [ ] Sidebar
+    - [ ] Hover
+    - [x] Carousel
+    - [x] Responsive
+    - [ ] Home
+      - [x] Categories
+      - [x] Cards
+      - [ ] Livestreams
+    - [ ] Sign In
+    - [ ] Sign Up
+    - [ ] Profile
+    - [ ] Project
+    - [ ] Project Builder
+    - [ ] Livestreams
+    - [ ] Jobs
+    - [ ] 404
+    - [ ] Placeholder
+    - [ ] GDPR
+  - [ ] State
+    - [ ] Categories
+    - [ ] Infinite Scroll
+  - [ ] Performance
+    - [ ] Optimize Images
+    - [ ] Lazyload
+    - [ ] Caching
+  - [ ] Routing
