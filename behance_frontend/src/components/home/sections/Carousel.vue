@@ -14,7 +14,7 @@
           </div>
 
           <div class="txt">
-            <p>{{ category.id}} {{ category.category}}</p>
+            <p>{{ category.category}}</p> <!-- {{ category.id}}  -->
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
                 @click="moveTo(selected +1)"><i class="fas fa-angle-right fa-lg"></i></button>
       </div>
     </div>
-    <div class="container">
+    <div class="">
       <div class="wrapper sub">
         <button class="sub-btn"
                 v-if="categories[this.selected].subcategories.length != 0"
@@ -59,11 +59,13 @@ export default {
     this.categories = categories;
     this.selected = 15;
     this.galleryAmount = categories.length;
+    window.addEventListener('resize', this.centerSelection);
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.centerSelection);
   },
   mounted() {
-    document
-      .querySelector('#xx')
-      .scrollTo(6500 / 2 - window.innerWidth / 2 + 20, 6500);
+    this.centerSelection();
   },
   methods: {
     moveTo: function(destination) {
@@ -97,13 +99,23 @@ export default {
           parent.prepend(last);
         }
       }
-      document
-        .querySelector('#xx')
-        .scrollTo(6500 / 2 - window.innerWidth / 2 + 20, 6500);
+      this.centerSelection();
+      // document.querySelector('#xx').scroll({
+      //   top: 2500,
+      //   left: 0,
+      //   behavior: 'smooth'
+      // });
     },
     selectSub: function(index) {
       this.subselected = index;
       console.log(index);
+    },
+    centerSelection: function() {
+      document.querySelector('#xx').scrollTo({
+        top: 0,
+        left: 6500 / 2 - window.innerWidth / 2 + 20,
+        behavior: 'smooth'
+      });
     }
   }
 };
@@ -117,7 +129,7 @@ export default {
 } */
 .sub-btn {
   padding: 12px 18px 12px 18px;
-  margin: 5px 5px 0px 5px;
+  margin: 5px 5px 5px 5px;
   cursor: pointer;
   border: 0px;
   border: 1px #efeeee solid;
@@ -216,11 +228,12 @@ p {
   opacity: 0 !important;
 }
 .container {
-  padding: 1.25em;
+  padding: 10px;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 .wrapper {
   display: grid;
@@ -234,6 +247,7 @@ p {
   right: 0;
   transition: all 0.2s;
   overflow: scroll;
+  scrollbar-width: none;
 }
 .wrapper .card {
   background-color: #0057ff;

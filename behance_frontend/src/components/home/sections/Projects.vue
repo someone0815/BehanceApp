@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <CardA v-for="(project, index) in allProjects.slice(lim *  (ind-1),lim * ind )"
+      <CardA v-for="(project, index) in allProjects.slice(elmPerGroup *  (ind-1),elmPerGroup * ind )"
              v-bind:key="project.id"
              v-bind:project="project"
              v-bind:index="index" />
-
+      <h3>Section {{ind}}</h3>
     </div>
   </div>
 </template>
@@ -18,51 +18,11 @@ export default {
   name: 'Projects',
   computed: mapGetters(['allProjects']),
   props: {
-    size: Number,
-    ind: Number
+    ind: Number,
+    elmPerGroup: Number
   },
   components: {
     CardA
-  },
-  data: () => ({
-    lim: null
-  }),
-  created() {
-    window.addEventListener('resize', this.ColumnCalc);
-    this.ColumnCalc();
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.ColumnCalc);
-  },
-  methods: {
-    getWidth() {
-      return screen.width;
-    },
-    ColumnCalc() {
-      let w = window.innerWidth;
-      let num = 0;
-      switch (true) {
-        case w > 2130:
-          num = 18;
-          break;
-        case w > 1725:
-          num = 15;
-          break;
-        case w > 1300:
-          num = 12;
-          break;
-        case w > 875:
-          num = 9;
-          break;
-        case w > 605:
-          num = 6;
-          break;
-        default:
-          num = 3;
-          break;
-      }
-      this.lim = num;
-    }
   }
 };
 </script>
