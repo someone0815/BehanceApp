@@ -1,19 +1,22 @@
 <template>
   <div class="home">
     <Carousel />
-    <Description title="Best of Behance"
-                 description="Projects featured today by our curators"
-                 button="" />
+    <Description
+      title="Best of Behance"
+      description="Projects featured today by our curators"
+      button=""
+    />
 
-    <Projects v-for="group in groupSize"
-              v-bind:key="group.id"
-              :ind="group"
-              :elmPerGroup="elmPerGroup" />
-    <button>Load More</button>
+    <Projects
+      v-for="group in groupSize"
+      v-bind:key="group.id"
+      :ind="group"
+      :elmPerGroup="elmPerGroup"
+    />
+    <!-- <button>Load More</button> -->
     <!-- <Projects v-for="projects in allProjects"
               v-bind:key="projects.id"
               :ind="1" /> -->
-
   </div>
 </template>
 
@@ -29,11 +32,11 @@ export default {
   components: {
     Projects,
     Description,
-    Carousel
+    Carousel,
   },
   data: () => ({
     elmPerGroup: null,
-    groupSize: 0
+    groupSize: 0,
   }),
   created() {
     window.addEventListener('resize', this.ColumnCalc);
@@ -73,8 +76,8 @@ export default {
       console.log(
         `allProjects.length: ${this.allProjects.length} elm/group: ${this.elmPerGroup} requiredGroups: ${this.groupSize}`
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

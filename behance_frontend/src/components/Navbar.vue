@@ -40,7 +40,9 @@
         </div>
       </div>
       <div class="signin visible">
-        <div class="item-holder "><a class="item ">Sign In</a></div>
+        <router-link to="/signin">
+          <div class="item-holder "><a class="item ">Sign In</a></div>
+        </router-link>
       </div>
       <div class="weblink visible">
         <div class="item-holder ">
