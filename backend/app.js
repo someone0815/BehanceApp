@@ -39,12 +39,17 @@ mongoose
   })
   .catch((err) => console.log(`Unable to connect with the database ${err}`));
 
-// app.get('/', (req, res) => {
-//   return res.send('<h1>Hello World</h1>');
-// });
 // Bring in the Users route
 const users = require('./routes/api/users');
 app.use('/api/users', users);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+// Bring in the Captcha route
+// const captcha = require('./routes/captcha');
+// app.use('/captcha', captcha);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
