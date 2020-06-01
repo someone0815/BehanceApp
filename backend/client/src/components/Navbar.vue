@@ -6,8 +6,7 @@
           <a class="item "><i class="fas fa-bars"></i></a>
         </div>
       </div>
-      <a href="/"
-         class="primary-logo">
+      <a href="/" class="primary-logo">
         <Logo />
       </a>
     </div>
@@ -23,19 +22,13 @@
         <div class="item-holder"><a class="item">About</a></div>
       </router-link>
 
-      <div class="socialgroup"
-           v-if="!isLoggedIn">
-        <a href=""
-           class="btn mail"><span>Sign Up With Email</span></a>
+      <div class="socialgroup" v-if="!isLoggedIn">
+        <a href="" class="btn mail"><span>Sign Up With Email</span></a>
         <div class="item-holder"><a class="or">or</a></div>
-        <a href=""
-           class="btn apple"> </a>
-        <a href=""
-           class="btn facebook"></a>
-        <a href=""
-           class="btn google"></a>
+        <a href="" class="btn apple"> </a>
+        <a href="" class="btn facebook"></a>
+        <a href="" class="btn google"></a>
       </div>
-
     </div>
     <div class="login">
       <div class="search">
@@ -44,22 +37,22 @@
         </div>
       </div>
       <div class="signin visible">
-        <router-link to="/signin"
-                     v-if="!isLoggedIn">
+        <router-link to="/signin" v-if="!isLoggedIn">
           <div class="item-holder"><a class="item">Sign In</a></div>
         </router-link>
-        <router-link to="/profile"
-                     v-if="isLoggedIn">
+        <router-link
+          :to="{ path: '/profile/' + user.username + '/work' }"
+          v-if="isLoggedIn"
+        >
           <div class="item-holder"><a class="item">Profile</a></div>
         </router-link>
-        <router-link to="/logout"
-                     v-if="isLoggedIn">
-          <div class="item-holder"><a class="item"
-               @click.prevent="logoutUser">Logout</a></div>
+        <router-link to="/logout" v-if="isLoggedIn">
+          <div class="item-holder">
+            <a class="item" @click.prevent="logoutUser">Logout</a>
+          </div>
         </router-link>
       </div>
-      <div class="weblink visible"
-           v-if="!isLoggedIn">
+      <div class="weblink visible" v-if="!isLoggedIn">
         <div class="item-holder ">
           <a class="item "><i class="fab fa-adobe"></i>Adobe</a>
         </div>
@@ -75,19 +68,27 @@ import { mapGetters, mapActions } from 'vuex';
 // const applelogo = require('@/src/assets/apple-256.png');
 // require applelogo from ;
 export default {
+  data: () => ({
+    username: '',
+  }),
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['user', 'isLoggedIn']),
   },
   components: {
-    Logo
+    Logo,
   },
   methods: {
     ...mapActions(['logout']),
+    mounted() {
+      console.log('user');
+      this.username = this.user.username;
+      console.log(this.username);
+    },
     logoutUser() {
       console.log('loggingout');
       this.logout();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -232,7 +233,7 @@ a {
   position: relative;
   vertical-align: top;
 }
-.router-link-exact-active div a {
+.router-link-active div a {
   color: white;
 }
 .nav-holder {

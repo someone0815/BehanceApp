@@ -1,27 +1,24 @@
 <template>
   <div class="card">
-    <div
-      class="cover"
-      @mouseenter="hoverEnter(index)"
-      @mouseleave="show = null"
-    >
+    <div class="cover"
+         @mouseenter="hoverEnter(index)"
+         @mouseleave="show = null">
       <div class="img-holder">
-        <img class="thumb" :src="project.thumbnail" />
+        <img class="thumb"
+             :src="project.thumbnail" />
       </div>
-      <div
-        :class="[show == index ? 'gradient' : '']"
-        class="backdrop visible"
-      ></div>
-      <div
-        class="txt-holder visible"
-        :class="[show == index ? 'is-hover' : '']"
-      >
+      <div :class="[show == index ? 'gradient' : '']"
+           class="backdrop visible"></div>
+      <div class="txt-holder visible"
+           :class="[show == index ? 'is-hover' : '']">
         <span class="visible">{{ project.title }}</span>
         <br />
-        <div class="multiple" v-if="Object.keys(project.author).length > 1">
+        <div class="multiple"
+             v-if="Object.keys(project.author).length > 1">
           <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
         </div>
-        <div class="author" v-else>
+        <div class="author"
+             v-else>
           <!-- <img :src="project.profileimg" /> -->
 
           <a href="">{{ project.author[0] }} </a>
@@ -39,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div class="subcover"></div>
+    <!-- <div class="subcover"></div> -->
   </div>
 </template>
 
@@ -47,27 +44,27 @@
 export default {
   name: 'CardA',
   data: () => ({
-    show: null,
+    show: null
   }),
   methods: {
     hoverEnter(index) {
       this.show = index;
-      console.log(index);
-    },
+      // console.log(index);
+    }
   },
   created() {
     // this.limit = 35;
-    console.log(this.show);
+    // console.log(this.show);
   },
   props: {
     project: Object,
-    index: Number,
-  },
+    index: Number
+  }
 };
 </script>
 
 <style scoped>
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 450px) {
   .visible {
     color: white;
     display: inline-block !important;
@@ -80,6 +77,7 @@ div {
 span {
   transition: color 0.2s ease;
 }
+
 .holder {
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -131,7 +129,7 @@ span {
   width: 20px;
 }
 .author {
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size: 13px;
   line-height: 1.3;
   -webkit-box-flex: 1;
@@ -146,7 +144,7 @@ span {
   top: 4px;
 }
 .multiple {
-  font-weight: bold;
+  font-weight: 300;
   font-size: 13px;
   line-height: 1.3;
   margin-top: 2px;
@@ -172,7 +170,7 @@ span {
   /* top: -5px; */
   /* margin-left: 4px; */
   /* font-size: 13px; */
-  font-weight: bold;
+  font-weight: 300;
   /* background-color: #f9f9f9; */
   color: white;
   font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,
@@ -194,9 +192,11 @@ a:hover {
 }
 .social span {
   padding-left: 4px;
-  font-weight: bold;
+  /* font-weight: bold; */
   font-size: 12px;
   cursor: default;
+  cursor: pointer;
+  /* font-weight: 300; */
 }
 .social i {
   font-size: 13px;
@@ -209,6 +209,7 @@ a:hover {
   color: white;
   font-weight: bold;
   width: -webkit-fill-available;
+  width: -moz-available;
   opacity: 0;
 }
 .is-hover {

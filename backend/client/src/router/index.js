@@ -39,13 +39,30 @@ const router = new Router({
       },
     },
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'Profile',
       component: () => import('../views/Profile.vue'),
       meta: {
         requiresGuest: false,
         requiresAuth: true,
       },
+      children: [
+        {
+          path: 'work',
+          name: 'Work',
+          component: () => import('../views/ProfileWork.vue'),
+        },
+        {
+          path: 'moodboards',
+          name: 'Moodboards',
+          component: () => import('../views/UnderConstruction.vue'),
+        },
+        {
+          path: 'appreciations',
+          name: 'Appreciations',
+          component: () => import('../views/UnderConstruction.vue'),
+        },
+      ],
     },
   ],
 });
@@ -74,7 +91,9 @@ router.beforeEach((to, from, next) => {
   ) {
     console.log('requires guest and logged out');
     console.log(store.getters.isLoggedIn);
-    next({ name: 'Profile' });
+    let dest = `/`;
+    next({ path: dest });
+    // next({ name: 'Profile' });
   } else {
     next();
   }

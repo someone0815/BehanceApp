@@ -6,36 +6,34 @@
     
     
     -->
-    <CardB
-      v-for="(project, index) in projects"
-      v-bind:key="project.id"
-      v-bind:project="project"
-      v-bind:index="index"
-    />
+    <CardB v-for="(project, index) in projects"
+           v-bind:key="project.id"
+           v-bind:project="project"
+           v-bind:index="index" />
   </div>
 </template>
 
 <script>
-import CardB from '../sections/CardB';
+import CardB from '../components/home/sections/CardB.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   computed: mapGetters(['user', 'allProjects']),
   props: {
-    projects: Array,
+    projects: Array
   },
   data: () => ({
     elmPerGroup: 3,
-    groupSize: 0,
+    groupSize: 0
   }),
   components: {
-    CardB,
+    CardB
   },
   methods: {
     ColumnCalc() {},
     created() {},
-    destroyed() {},
-  },
+    destroyed() {}
+  }
 };
 </script>
 
@@ -45,7 +43,22 @@ export default {
     grid-template-columns: 1fr 1fr !important;
   }
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1100px) {
+  .cardcontainer {
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .cardcontainer {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+/* @media only screen and (max-width: 900px) {
+  .cardcontainer {
+    grid-template-columns: 1fr 1fr !important;
+  }
+} */
+@media only screen and (max-width: 550px) {
   .cardcontainer {
     grid-template-columns: 1fr !important;
   }

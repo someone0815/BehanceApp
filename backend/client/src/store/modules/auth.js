@@ -4,7 +4,8 @@ import router from '../../router';
 
 const state = {
   token: localStorage.getItem('token') || '',
-  user: '{}',
+  user: JSON.parse(localStorage.getItem('user') || 'false'),
+  visitingprofile: '',
   status: '',
   loggedin: JSON.parse(localStorage.getItem('loggedinST') || 'false'),
   error: null,
@@ -16,6 +17,7 @@ const getters = {
     return state.status;
   },
   user: (state) => state.user,
+  visitingprofile: (state) => state.visitingprofile,
   error: (state) => state.error,
 };
 const actions = {
@@ -35,6 +37,8 @@ const actions = {
         const user = res.data.user;
         // Store token into localStorage
         localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        // localStorage.setItem('user', user);
         // Set axios defaults
         axios.defaults.headers.common['Authorization'] = token;
         commit('auth_success', token, user);
@@ -68,11 +72,18 @@ const actions = {
     }
   },
   // Get the user Profile
-  async getProfile({ commit }) {
+  async getProfile({ commit }, username) {
     commit('profile_request');
-    let res = await axios.get('http://192.168.2.104:5000/api/users/profile');
-    commit('user_profile', res.data.user);
-    return res;
+    try {
+      let res = await axios.get(
+        `http://192.168.2.104:5000/api/users/profile/${username}`
+      );
+      commit('user_profile', res.data.user);
+      return res;
+    } catch (err) {
+      commit('getprofile_error', err);
+      return err;
+    }
   },
   // Logout User
   async logout({ commit }) {
@@ -90,13 +101,15 @@ const mutations = {
   },
   auth_success(state, token, user) {
     state.token = token;
-    state.user = user;
     state.status = 'success';
     state.loggedin = true;
     state.error = null;
     localStorage.setItem('loggedinST', JSON.stringify(state.loggedin)); // OR
+    state.user = JSON.parse(localStorage.getItem('user') || 'false');
+    // localStorage.setItem('user', user); // OR
     console.log('lgd in');
     console.log(state.loggedin);
+    console.log(user);
   },
   auth_error(state, err) {
     state.error = err.response.data; //err.response.data.msg;
@@ -112,6 +125,9 @@ const mutations = {
   register_error(state, err) {
     state.error = err.response.data; //err.response.data.msg;
   },
+  getprofile_error(state, err) {
+    state.error = err.response.data; //err.response.data.msg;
+  },
   logout(state) {
     state.error = null;
     state.status = '';
@@ -119,12 +135,15 @@ const mutations = {
     state.user = '';
     state.loggedin = false;
     localStorage.removeItem('loggedinST');
+    localStorage.removeItem('user');
   },
   profile_request(state) {
     state.status = 'loading';
   },
   user_profile(state, user) {
-    state.user = user;
+    // state.user = user;
+    state.status = 'success';
+    state.visitingprofile = user;
   },
 };
 

@@ -3,6 +3,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 import axios from 'axios';
+import 'normalize.css';
 
 Vue.config.productionTip = false;
 

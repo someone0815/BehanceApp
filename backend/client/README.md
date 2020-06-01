@@ -33,11 +33,11 @@ serve -s dist
 ### Todo
 
 - [ ] Backend Api
-  - [ ] Sign In
-  - [ ] Sign Up
+  - [x] Sign In
+  - [x] Sign Up
     - [ ] e-mail
     - [ ] Third Party
-  - [ ] Profile
+  - [x] Profile
   - [ ] Profile Edit
   - [ ] Project
     - [ ] API
@@ -48,7 +48,7 @@ serve -s dist
   - [ ] Search
   - [ ] Home
   - [ ] Delete account
-  - [ ] CORS
+  - [x] CORS
 
 * [ ] Frontend
   - [ ] Components
@@ -58,20 +58,20 @@ serve -s dist
     - [ ] Hover
     - [x] Carousel
     - [x] Responsive
-    - [ ] Home
+    - [x] Home
       - [x] Categories
       - [x] Cards
-      - [ ] Livestreams
-    - [ ] Sign In
-    - [ ] Sign Up
-    - [ ] Profile
+      - [ ] ~~Livestreams~~
+    - [x] Sign In
+    - [x] Sign Up
+    - [x] Profile
     - [ ] Project
     - [ ] Project Builder
-    - [ ] Livestreams
-    - [ ] Jobs
-    - [ ] 404
+    - [ ] ~~Livestreams~~
+    - [ ] ~~Jobs~~
+    - [x] 404
     - [ ] Placeholder
-    - [ ] GDPR
+    - [ ] ~~GDPR~~
   - [ ] State
     - [ ] Categories
     - [ ] Infinite Scroll

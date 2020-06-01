@@ -66,6 +66,15 @@ router.post(
       });
       // That data is valid and now we can register the user
       let newUser = new User({
+        // profile: {
+        //   profileimg,
+        //   location,
+        //   projectviews,
+        //   apperciations,
+        //   followers,
+        //   following,
+        //   bio,
+        // },
         name,
         username,
         password,
@@ -76,12 +85,15 @@ router.post(
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
           newUser.password = hash;
-          newUser.save().then((user) => {
-            return res.status(200).json({
-              success: true,
-              msg: 'User is now registered.',
+
+          if (!err) {
+            newUser.save().then((user) => {
+              return res.status(200).json({
+                success: true,
+                msg: 'User is now registered.',
+              });
             });
-          });
+          }
         });
       });
     }
@@ -121,7 +133,8 @@ router.post('/login', (req, res) => {
               res.status(200).json({
                 success: true,
                 token: `Bearer ${token}`,
-                user: user,
+
+                user: payload, // instead of useruser
                 msg: 'You are now logged in.',
               });
             });
@@ -149,12 +162,35 @@ router.post('/login', (req, res) => {
  *@access Public
  */
 router.get(
-  '/profile',
+  '/profile/:username',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    return res.json({
-      user: req.user,
+    User.findOne({ username: req.params.username }).then((user) => {
+      if (user) {
+        return res.status(200).json({
+          user: {
+            name: user.name,
+            email: user.email,
+            uername: user.username,
+            profile: user.profile,
+          },
+          success: true,
+        });
+      } else {
+        return res.status(404).json({
+          errors: {
+            0: {
+              msg: 'User not found.',
+              param: 'Check url.',
+            },
+          },
+          success: false,
+        });
+      }
     });
+    // return res.json({
+    //   user: req.user,
+    // });
   }
 );
 

@@ -1,62 +1,64 @@
 <template>
   <div class="back">
-    <div class="profilebanner"></div>
-    <div class="wrapper">
+    <!-- <h2>User {{ $route.params.id }}</h2> -->
+    <!-- <h2>User {{ user.name }}</h2> -->
+    <div class="profilebanner" v-if="!notfound" ref="banner"></div>
+    <div class="notfound" v-if="notfound">
+      <h1>404</h1>
+      <br />{{ $route.params.id }} not found
+    </div>
+    <div class="wrapper" v-if="dataLoaded">
       <div class="profilesidebar">
         <div class="profileavatar">
-          <img
-            src="https://mir-s3-cdn-cf.behance.net/user/115/acc35c141355.56719419ddc61.jpg"
-            alt=""
-          />
+          <img :src="visitingprofile.profile.profileimg" />
         </div>
         <!-- <br /> -->
-        <h2>Gustav Willeit</h2>
+        <h2>{{ visitingprofile.name }}</h2>
         <!-- <br /> -->
-        <a class="site" href="https://www.google.com/"
-          >https://www.google.com/</a
-        >
+        <a class="profession">{{ visitingprofile.profile.profession }}</a>
+        <a class="site" href="https://www.google.com/">{{
+          visitingprofile.email
+        }}</a>
         <a class="location" href="https://www.google.com/"
-          ><i class="fas fa-map-marker-alt"></i> Corvara in Badia - Corvara,
-          Italy</a
+          ><i class="fas fa-map-marker-alt"></i>
+          {{ visitingprofile.profile.location }}</a
         >
-        <br />
+        <!-- <br /> -->
+        <div class="br"></div>
         <div class="buttongroup">
           <button class="follow">Follow</button>
           <button class="message">Message</button>
         </div>
-        <br />
+        <div class="br"></div>
+        <div class="br"></div>
         <div class="loadmore" @click="expandProfile">EXPAND</div>
         <div class="expandedcontent">
           <div class="stats">
             <ul>
               <li>
                 <p>Project Views</p>
-                <p>600k</p>
+                <p>{{ visitingprofile.profile.projectviews }}</p>
               </li>
               <li>
                 <p>Appreciations</p>
-                <p>53k</p>
+                <p>{{ visitingprofile.profile.apperciations }}</p>
               </li>
               <li>
                 <p>Followers</p>
-                <p>15k</p>
+                <p>{{ visitingprofile.profile.followerscount }}</p>
               </li>
               <li>
                 <p>Following</p>
-                <p>560</p>
+                <p>{{ visitingprofile.profile.followingcount }}</p>
               </li>
             </ul>
           </div>
-
-          <br />
+          <div class="br"></div>
           <span class="abouttitle">ABOUT</span>
           <p class="aboutbody">
-            Born in Brunico and grew up in Corvara, Alta Badia, Italy. He
-            studied at the F+F School for Art and Design in Zurich, Switzerland,
-            acquiring the technical skills, which support his innate poetic
-            vision of the world. He has been assisting various photographers.
-            Now he works as a freelancer.
+            {{ visitingprofile.profile.bio }}
           </p>
+
           <br />
           <span class="membersince">Member Since: January 5, 2010</span>
           <br />
@@ -65,21 +67,39 @@
       </div>
       <div class="profilecontents">
         <div class="featureslist"></div>
-        <ul class="profiletab">
+        <div class="profiletab">
           <!-- <li>Info</li> -->
-          <li>Work</li>
-          <li>Moodboards</li>
-          <li>Appreciations</li>
+          <router-link
+            class="stats"
+            :to="{ path: '/profile/' + $route.params.id + '/work' }"
+          >
+            <a class="item">Work</a>
+          </router-link>
+          <router-link
+            class="stats"
+            :to="{ path: '/profile/' + $route.params.id + '/moodboards' }"
+          >
+            <a class="item">Moodboards</a>
+          </router-link>
+          <router-link
+            class="stats"
+            :to="{ path: '/profile/' + $route.params.id + '/appreciations' }"
+          >
+            <a class="item">Appreciations</a>
+          </router-link>
+          <!-- <li>Work</li> -->
+          <!-- <li>Moodboards</li> -->
+          <!-- <li>Appreciations</li> -->
           <!-- <div class="gradient"></div> -->
-        </ul>
+        </div>
         <div class="projectcontainer">
+          <router-view />
           <!-- <Projects
             v-for="group in groupSize"
             v-bind:key="group.id"
             :ind="group"
             :elmPerGroup="elmPerGroup"
           /> -->
-          <ProfileProjects :projects="allProjects" />
         </div>
       </div>
     </div>
@@ -95,28 +115,51 @@
 </template>
 
 <script>
-import ProfileProjects from '../components/home/sections/ProfileProjects.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  computed: mapGetters(['user', 'allProjects']),
+  computed: mapGetters(['error', 'visitingprofile', 'allProjects']),
   data: () => ({
     containerElm: null,
+    dataLoaded: false,
+    notfound: false,
   }),
   components: {
-    ProfileProjects,
+    // ProfileProjects
     // Projects,
   },
   methods: {
     ...mapActions(['getProfile']),
     expandProfile() {
       document.querySelector('.expandedcontent').style.display = 'block';
-      document.querySelector('.loadmore').style.display = 'none';
+      document.querySelector('.loadmore').style.visibility = 'hidden ';
+      document.querySelector('.loadmore').style.position = 'absolute';
+      // console.log(document.querySelector('.profilebanner'));
     },
   },
-  created() {
+  mounted() {
     console.log('getprofile');
-    this.getProfile();
+    this.getProfile(this.$route.params.id).then(() => {
+      // console.log('res');
+      // console.log(res);
+      if (this.error != null) {
+        console.log('res');
+        console.log(this.error);
+        console.log(this.error.errors[0].msg);
+        this.notfound = true;
+        return;
+      }
+
+      this.dataLoaded = true;
+      // console.log(this.$refs.banner);
+      this.$refs.banner.style.backgroundImage = `url('${this.visitingprofile.profile.profilebanner}')`;
+    });
+
+    // const myElement = document.getElementById('banner')[0];
+    // console.log(this.$refs.grid);
+    // console.log(myElement);
+  },
+  created() {
     // this.containerElm = 'x'; //document.querySelector('.projectcontainer');
     // console.log(this.getProfile());
     // console.log(this.user.name);
@@ -125,59 +168,93 @@ export default {
 </script>
 
 <style scoped>
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1100px) {
   .wrapper {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
     display: block !important;
     padding: 1em !important;
   }
   .expandedcontent {
     display: none;
+    width: 100%;
   }
   .loadmore {
     display: block !important;
+    /* visibility: none; */
   }
   .profilesidebar {
     max-width: 360px;
     width: 100% !important;
     margin: auto;
+    background-color: transparent !important;
+    box-shadow: none !important;
   }
-  .projectcontainer {
-    max-width: 360px;
-    margin: auto;
+  .profileavatar {
+    border: 10px solid #f9f9f9;
+    border-radius: 100%;
   }
+
   .profiletab {
     margin-left: auto !important;
     margin-right: auto !important;
-    max-width: 360px;
+    display: flex;
+    justify-content: center;
+    /* max-width: 360px; */
+  }
+  div.profiletab > a.stats:nth-child(1) > a {
+    margin-left: 0px !important;
   }
   .featureslist {
     display: none;
   }
+  .profilecontents {
+    position: relative;
+    top: -5em;
+  }
+}
+
+.notfound {
+  text-align: center;
+  font-size: 1em;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 10em;
+  margin: 0px;
+}
+
+.expandedcontent {
+  width: 100%;
 }
 .loadmore {
   display: none;
-}
-ul.profiletab li:nth-child(1) {
-  margin-left: 0px;
-}
-ul.profiletab {
-  /* background-color: cadetblue; */
-  display: flex;
-  padding: 0em;
-  margin: 1em 0em 1em 0em;
+  visibility: visible;
+  padding: 1em;
   cursor: pointer;
+  font-weight: bold;
+  color: gray;
+}
+.loadmore:hover {
+  color: black;
+}
+div.profiletab > a.stats:nth-child(1) > a {
+  margin-left: -0.95em;
 }
 
-ul.profiletab li:hover {
+a.item:hover {
   color: black;
   /* font-weight: 600; */
   /* box-shadow: black 1px 1px 1px 1px; */
 }
-ul.profiletab li {
-  display: block;
-  margin: 0em 1em 0em 1em;
-  color: darkgray;
+a.item {
+  display: inline-block;
+  /* margin: 0em 1em 0em 1em; */
+  /* color: darkgray; */
+  cursor: pointer;
+
+  padding: 0.85em;
 }
 .featureslist {
   width: 100%;
@@ -204,9 +281,14 @@ ul.profiletab li {
   color: #585858;
 }
 
-.stats {
-  width: 100%;
+.router-link-active a {
+  font-weight: bold;
+  color: black !important;
 }
+
+/* .stats { */
+/* width: 100%; */
+/* } */
 .stats ul {
   margin: 0px;
   padding: 0px;
@@ -273,6 +355,7 @@ h2 {
   position: relative;
   bottom: 2px;
 }
+a,
 a:visited {
   color: gray;
 }
@@ -280,6 +363,7 @@ a:visited {
 /* padding-top: 2em; */
 /* } */
 .profileavatar img {
+  max-height: 115px;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -290,7 +374,7 @@ a:visited {
 .profilebanner {
   background-color: gray;
   height: 210px;
-  background-image: url('https://mir-cdn.behance.net/v1/assets//d515730e0002971f9a471796124e173f/2e164fbf-b738-4d40-a4b5-a743cd4603a4_rwc_-4x129x8688x824x8688.jpg?h=0053ccc04ba49215c55236a24fcc6c39');
+  /* background-image: url('https://mir-cdn.behance.net/v1/assets//d515730e0002971f9a471796124e173f/2e164fbf-b738-4d40-a4b5-a743cd4603a4_rwc_-4x129x8688x824x8688.jpg?h=0053ccc04ba49215c55236a24fcc6c39'); */
   background-position: center center;
   background-repeat: no-repeat;
   /* background-attachment: fixed; */
@@ -302,7 +386,9 @@ a:visited {
   padding: 2em;
   box-sizing: border-box;
   background-color: white;
-  box-shadow: #00000069 0px 2px 8px -3px;
+  /* box-shadow: #00000069 0px 2px 8px -3px; */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
   display: flex;
   flex-direction: column;

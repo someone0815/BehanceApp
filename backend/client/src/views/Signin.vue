@@ -199,8 +199,11 @@ export default {
           console.log('res');
           window.grecaptcha.reset(0);
           if (res.data.success) {
-            this.$router.push('/profile').catch((err) => console.log(err));
+            this.$router
+              .push(`/profile/${res.data.user.username}/work`)
+              .catch((err) => console.log(err));
             console.log(`Logged in successfully : ${res.data.success}`);
+            console.log(res);
           }
         })
         .catch((err) => {
@@ -274,8 +277,9 @@ input[type='text'] {
   background-color: transparent !important;
   border: none;
   border-bottom: 1px solid;
-  width: -webkit-fill-available;
-  border-color: #cacaca;
+  /* width: -webkit-fill-available; */
+  width: 100%;
+  border-color: #0000003d;
   padding: 5px;
   margin-bottom: 15px;
   font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,

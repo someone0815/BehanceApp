@@ -13,15 +13,18 @@ import Navbar from './components/Navbar.vue';
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
   },
   created() {},
   destroyed() {},
-  computed: {}
+  computed: {},
 };
 </script>
 
 <style>
+html {
+  background-color: #f9f9f9;
+}
 body {
   font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
@@ -29,6 +32,11 @@ body {
   background: white;
   letter-spacing: 0.02rem;
   margin: 0px;
+}
+.br {
+  width: 1em;
+  height: 1em;
+  display: block;
 }
 .container {
   /* max-width: 1600px; */
