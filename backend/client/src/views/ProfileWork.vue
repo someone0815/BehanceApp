@@ -1,20 +1,27 @@
 <template>
   <div>
-    <!-- <h3>work</h3> -->
-    <ProfileProjects :projects="allProjects" />
+    <ProfileProjects :projects="allProfileProjects.projects" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex'; //
 
 import ProfileProjects from '../views/ProfileProjects.vue';
 
 export default {
-  computed: mapGetters(['allProjects']),
+  methods: {
+    ...mapActions(['getProfileProjects'])
+  },
+  computed: mapGetters(['allProfileProjects']),
   components: {
     ProfileProjects
-    // Projects,
+  },
+  mounted() {
+    this.getProfileProjects(this.$route.params.id).then(() => {
+      console.log('allProfileProjects');
+      console.log(this.allProfileProjects);
+    });
   }
 };
 </script>

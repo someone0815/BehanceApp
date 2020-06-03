@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../views/Home.vue';
+import Discover from '../views/Discover.vue';
 import store from '../store/modules/auth';
 
 Vue.use(Router);
@@ -21,6 +22,15 @@ const router = new Router({
       },
     },
     {
+      path: '/discover',
+      name: 'Home',
+      component: Discover,
+      meta: {
+        requiresGuest: false,
+        requiresAuth: false,
+      },
+    },
+    {
       path: '/about',
       name: 'About',
       component: () => import('../views/About.vue'),
@@ -35,6 +45,15 @@ const router = new Router({
       component: () => import('../views/Signin.vue'),
       meta: {
         requiresGuest: true,
+        requiresAuth: false,
+      },
+    },
+    {
+      path: '/gallery/:id',
+      name: 'Project',
+      component: () => import('../views/Project.vue'),
+      meta: {
+        requiresGuest: false,
         requiresAuth: false,
       },
     },
@@ -91,8 +110,7 @@ router.beforeEach((to, from, next) => {
   ) {
     console.log('requires guest and logged out');
     console.log(store.getters.isLoggedIn);
-    let dest = `/`;
-    next({ path: dest });
+    next({ path: '/discover' });
     // next({ name: 'Profile' });
   } else {
     next();

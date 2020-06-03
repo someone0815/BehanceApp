@@ -5,7 +5,6 @@ import router from '../../router';
 const state = {
   token: localStorage.getItem('token') || '',
   user: JSON.parse(localStorage.getItem('user') || 'false'),
-  visitingprofile: '',
   status: '',
   loggedin: JSON.parse(localStorage.getItem('loggedinST') || 'false'),
   error: null,
@@ -17,7 +16,6 @@ const getters = {
     return state.status;
   },
   user: (state) => state.user,
-  visitingprofile: (state) => state.visitingprofile,
   error: (state) => state.error,
 };
 const actions = {
@@ -71,20 +69,6 @@ const actions = {
       return err;
     }
   },
-  // Get the user Profile
-  async getProfile({ commit }, username) {
-    commit('profile_request');
-    try {
-      let res = await axios.get(
-        `http://192.168.2.104:5000/api/users/profile/${username}`
-      );
-      commit('user_profile', res.data.user);
-      return res;
-    } catch (err) {
-      commit('getprofile_error', err);
-      return err;
-    }
-  },
   // Logout User
   async logout({ commit }) {
     await localStorage.removeItem('token');
@@ -118,14 +102,12 @@ const mutations = {
     state.error = null;
     state.status = 'loading';
   },
+
   register_success(state) {
     state.error = null;
     state.status = 'success';
   },
   register_error(state, err) {
-    state.error = err.response.data; //err.response.data.msg;
-  },
-  getprofile_error(state, err) {
     state.error = err.response.data; //err.response.data.msg;
   },
   logout(state) {
@@ -136,14 +118,6 @@ const mutations = {
     state.loggedin = false;
     localStorage.removeItem('loggedinST');
     localStorage.removeItem('user');
-  },
-  profile_request(state) {
-    state.status = 'loading';
-  },
-  user_profile(state, user) {
-    // state.user = user;
-    state.status = 'success';
-    state.visitingprofile = user;
   },
 };
 

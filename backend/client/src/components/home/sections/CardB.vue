@@ -14,24 +14,23 @@
         <span class="visible">{{ project.title }}</span>
         <br />
         <div class="multiple"
-             v-if="Object.keys(project.author).length > 1">
+             v-if="Object.keys(project.owners).length > 1">
+
           <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
         </div>
         <div class="author"
              v-else>
-          <!-- <img :src="project.profileimg" /> -->
-
-          <a href="">{{ project.author[0] }} </a>
+          <a href="">{{ allProfileProjects.ownersInfo[0].name }} </a>
         </div>
 
         <div class="social">
           <i class="fas fa-thumbs-up"></i>
           <span class="likes">{{
-            new Intl.NumberFormat().format(project.likes)
+            new Intl.NumberFormat().format(project.social.apperciations)
           }}</span>
           <i class="fas fa-eye"></i>
           <span class="views">{{
-            new Intl.NumberFormat().format(project.views)
+            new Intl.NumberFormat().format(project.social.projectviews)
           }}</span>
         </div>
       </div>
@@ -41,6 +40,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'CardA',
   data: () => ({
@@ -55,7 +55,9 @@ export default {
   created() {
     // this.limit = 35;
     // console.log(this.show);
+    // console.log(this.ownerInfo);
   },
+  computed: mapGetters(['allProfileProjects']),
   props: {
     project: Object,
     index: Number

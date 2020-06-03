@@ -2,12 +2,16 @@
   <div class="back">
     <!-- <h2>User {{ $route.params.id }}</h2> -->
     <!-- <h2>User {{ user.name }}</h2> -->
-    <div class="profilebanner" v-if="!notfound" ref="banner"></div>
-    <div class="notfound" v-if="notfound">
+    <div class="profilebanner"
+         v-if="!notfound"
+         ref="banner"></div>
+    <div class="notfound"
+         v-if="notfound">
       <h1>404</h1>
       <br />{{ $route.params.id }} not found
     </div>
-    <div class="wrapper" v-if="dataLoaded">
+    <div class="wrapper"
+         v-if="dataLoaded">
       <div class="profilesidebar">
         <div class="profileavatar">
           <img :src="visitingprofile.profile.profileimg" />
@@ -16,13 +20,11 @@
         <h2>{{ visitingprofile.name }}</h2>
         <!-- <br /> -->
         <a class="profession">{{ visitingprofile.profile.profession }}</a>
-        <a class="site" href="https://www.google.com/">{{
-          visitingprofile.email
-        }}</a>
-        <a class="location" href="https://www.google.com/"
-          ><i class="fas fa-map-marker-alt"></i>
-          {{ visitingprofile.profile.location }}</a
-        >
+        <a class="site"
+           href="https://www.google.com/">takemasa.com</a><!-- {{ visitingprofile.email }} -->
+        <a class="location"
+           href="https://www.google.com/"><i class="fas fa-map-marker-alt"></i>
+          {{ visitingprofile.profile.location }}</a>
         <!-- <br /> -->
         <div class="br"></div>
         <div class="buttongroup">
@@ -31,7 +33,8 @@
         </div>
         <div class="br"></div>
         <div class="br"></div>
-        <div class="loadmore" @click="expandProfile">EXPAND</div>
+        <div class="loadmore"
+             @click="expandProfile">EXPAND</div>
         <div class="expandedcontent">
           <div class="stats">
             <ul>
@@ -62,29 +65,24 @@
           <br />
           <span class="membersince">Member Since: January 5, 2010</span>
           <br />
-          <a class="report" href="">Report</a>
+          <a class="report"
+             href="">Report</a>
         </div>
       </div>
       <div class="profilecontents">
         <div class="featureslist"></div>
         <div class="profiletab">
           <!-- <li>Info</li> -->
-          <router-link
-            class="stats"
-            :to="{ path: '/profile/' + $route.params.id + '/work' }"
-          >
+          <router-link class="stats"
+                       :to="{ path: '/profile/' + $route.params.id + '/work' }">
             <a class="item">Work</a>
           </router-link>
-          <router-link
-            class="stats"
-            :to="{ path: '/profile/' + $route.params.id + '/moodboards' }"
-          >
+          <router-link class="stats"
+                       :to="{ path: '/profile/' + $route.params.id + '/moodboards' }">
             <a class="item">Moodboards</a>
           </router-link>
-          <router-link
-            class="stats"
-            :to="{ path: '/profile/' + $route.params.id + '/appreciations' }"
-          >
+          <router-link class="stats"
+                       :to="{ path: '/profile/' + $route.params.id + '/appreciations' }">
             <a class="item">Appreciations</a>
           </router-link>
           <!-- <li>Work</li> -->
@@ -118,11 +116,16 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  computed: mapGetters(['error', 'visitingprofile', 'allProjects']),
+  computed: mapGetters([
+    'error',
+    'profile_error',
+    'visitingprofile',
+    'allProjects'
+  ]),
   data: () => ({
     containerElm: null,
     dataLoaded: false,
-    notfound: false,
+    notfound: false
   }),
   components: {
     // ProfileProjects
@@ -135,17 +138,17 @@ export default {
       document.querySelector('.loadmore').style.visibility = 'hidden ';
       document.querySelector('.loadmore').style.position = 'absolute';
       // console.log(document.querySelector('.profilebanner'));
-    },
+    }
   },
   mounted() {
     console.log('getprofile');
     this.getProfile(this.$route.params.id).then(() => {
       // console.log('res');
-      // console.log(res);
-      if (this.error != null) {
-        console.log('res');
-        console.log(this.error);
-        console.log(this.error.errors[0].msg);
+      // console.log(this.profile_error);
+      if (this.profile_error != null) {
+        // console.log('res');
+        console.log(this.profile_error);
+        console.log(this.profile_error.errors[0].msg);
         this.notfound = true;
         return;
       }
@@ -163,7 +166,7 @@ export default {
     // this.containerElm = 'x'; //document.querySelector('.projectcontainer');
     // console.log(this.getProfile());
     // console.log(this.user.name);
-  },
+  }
 };
 </script>
 

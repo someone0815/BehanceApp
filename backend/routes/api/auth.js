@@ -6,16 +6,17 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const key = require('../../config/keys').secret;
 const User = require('../../model/User');
-const request = require('request');
+const Project = require('../../model/Project');
+// const request = require('request');
 // Secret Key
-const secretKey = '6LewOvwUAAAAAFdNqS9-701c_LYEbwLZ_wMBBVS2';
+// const secretKey = '6LewOvwUAAAAAFdNqS9-701c_LYEbwLZ_wMBBVS2';
 const captcha = require('../captcha');
 
-/**
- *@route POST api/users/register
- *@desc Register the User
- *@access Public
- */
+// /**
+//  *@route POST api/users/register
+//  *@desc Register the User
+//  *@access Public
+//  */
 router.post(
   '/register',
   [check('email').isEmail(), check('password').isLength({ min: 8 })],
@@ -156,42 +157,54 @@ router.post('/login', (req, res) => {
   }
 });
 
-/**
- *@route POST api/users/profile
- *@desc Return the Users Data
- *@access Public
- */
-router.get(
-  '/profile/:username',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    User.findOne({ username: req.params.username }).then((user) => {
-      if (user) {
-        return res.status(200).json({
-          user: {
-            name: user.name,
-            email: user.email,
-            uername: user.username,
-            profile: user.profile,
-          },
-          success: true,
-        });
-      } else {
-        return res.status(404).json({
-          errors: {
-            0: {
-              msg: 'User not found.',
-              param: 'Check url.',
-            },
-          },
-          success: false,
-        });
-      }
-    });
-    // return res.json({
-    //   user: req.user,
-    // });
-  }
-);
+// /**
+//  *@route POST api/users/profile
+//  *@desc Return the Users Data
+//  *@access Public
+//  */
+// router.get(
+//   '/profile/projects/:username',
+//   // passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     User.findOne({ username: req.params.username }).then((user) => {
+//       if (user) {
+//         return res.status(200).json({
+//           title: user,
+//         });
+//         Project.find({ username: 'takemasa' })
+//           // .select('title')
+//           // .where('username')
+//           // .equals('req.params.username')
+//           .exec((err, projects) => {
+//             return res.status(200).json({
+//               title: projects,
+//             });
+//             // return res.status(200).json({
+//             //   user: {
+//             //     name: user.name,
+//             //     email: user.email,
+//             //     uername: user.username,
+//             //     profile: user.profile,
+//             //   },
+//             //   success: true,
+//             // });
+//           });
+//       } else {
+//         return res.status(404).json({
+//           errors: {
+//             0: {
+//               msg: 'User not found.',
+//               param: 'Check url.',
+//             },
+//           },
+//           success: false,
+//         });
+//       }
+//     });
+//     // return res.json({
+//     //   user: req.user,
+//     // });
+//   }
+// );
 
 module.exports = router;

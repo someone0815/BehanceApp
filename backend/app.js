@@ -39,9 +39,12 @@ mongoose
   })
   .catch((err) => console.log(`Unable to connect with the database ${err}`));
 
-// Bring in the Users route
-const users = require('./routes/api/users');
-app.use('/api/users', users);
+const auth = require('./routes/api/auth');
+app.use('/api/users', auth);
+const profile = require('./routes/api/profile');
+app.use('/api/profile', profile);
+const project = require('./routes/api/project');
+app.use('/api/project', project);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
