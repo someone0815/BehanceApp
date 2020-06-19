@@ -1,18 +1,16 @@
 <template>
   <div class="home">
     <Carousel />
-    <Description
-      title="Best of Behance"
-      description="Projects featured today by our curators"
-      button=""
-    />
+    <Description title="Best of Behance"
+                 description="Projects featured today by our curators"
+                 button="" />
 
-    <Projects
-      v-for="group in groupSize"
-      v-bind:key="group.id"
-      :ind="group"
-      :elmPerGroup="elmPerGroup"
-    />
+    <Projects v-for="group in groupSize"
+              v-bind:key="group.id"
+              :ind="group"
+              :elmPerGroup="elmPerGroup" />
+    <button class="btn"
+            @click.prevent="loadProjects">Loadmore</button>
     <!-- <button>Load More</button> -->
     <!-- <Projects v-for="projects in allProjects"
               v-bind:key="projects.id"
@@ -21,31 +19,54 @@
 </template>
 
 <script>
-import Projects from '../components/home/sections/Projects.vue';
-import Description from '../components/home/sections/Description.vue';
-import Carousel from '../components/home/sections/Carousel.vue';
-import { mapGetters } from 'vuex';
+import Projects from '../discover/sections/Projects.vue';
+import Description from '../discover/sections/Description.vue';
+import Carousel from '../discover/sections/Carousel.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
-  computed: mapGetters(['allProjects']),
+
+  computed: mapGetters(['allProjects', 'fontpageindex']),
   components: {
     Projects,
     Description,
-    Carousel,
+    Carousel
   },
   data: () => ({
     elmPerGroup: null,
-    groupSize: 0,
+    groupSize: 0
   }),
   created() {
     window.addEventListener('resize', this.ColumnCalc);
-    this.ColumnCalc();
+    // this.ColumnCalc();
+    // this.loadProjects();
   },
   destroyed() {
     window.removeEventListener('resize', this.ColumnCalc);
   },
+  mounted() {
+    if (Object.keys(this.allProjects).length == 0) {
+      this.loadProjects();
+    }
+    // this.loadProjects();
+  },
   methods: {
+    ...mapActions(['getProjects']),
+    loadProjects() {
+      this.getProjects({
+        amount: 24,
+        index: this.fontpageindex,
+        type: 'profile'
+      }).then(() => {
+        this.ColumnCalc();
+        // console.log('allProjects');
+        // console.log(this.allProjects);
+        // console.log(Object.keys(this.allProjects).length);
+        // console.log(this.fontpageindex);
+        // this.fontpageindex++;
+      });
+    },
     ColumnCalc() {
       let w = window.innerWidth;
       let num = 0;
@@ -71,13 +92,13 @@ export default {
       }
       this.elmPerGroup = num;
       this.groupSize =
-        Math.round(this.allProjects.length / this.elmPerGroup) + 1;
+        Math.round(Object.keys(this.allProjects).length / this.elmPerGroup) + 1;
 
       console.log(
         `allProjects.length: ${this.allProjects.length} elm/group: ${this.elmPerGroup} requiredGroups: ${this.groupSize}`
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

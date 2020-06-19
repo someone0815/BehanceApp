@@ -1,6 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// const CommentSchema = new mongoose.Schema({
+//   commentUser: {
+//     type: String,
+//   },
+//   text: {
+//     type: String,
+//   },
+//   date: {
+//     type: Date,
+//     default: Date.now,
+//   },
+// });
 const SocialSchema = new mongoose.Schema({
   projectviews: {
     type: Number,
@@ -19,6 +31,10 @@ const SocialSchema = new mongoose.Schema({
 // Create the User Schema
 const ProjectSchema = mongoose.Schema({
   // profile: [ProfileSchema],
+  mature: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     required: true,
@@ -34,10 +50,20 @@ const ProjectSchema = mongoose.Schema({
     required: true,
     default: 'content',
   },
+  submitter: {
+    type: String,
+    required: true,
+    default: 'notfound',
+  },
+  involved: {
+    type: Array,
+    required: true,
+    default: [],
+  },
   tools: {
     type: Array,
     required: true,
-    default: ['photoshop'],
+    default: [],
   },
   categories: {
     type: Array,
@@ -50,6 +76,24 @@ const ProjectSchema = mongoose.Schema({
     default: ['poster design'],
   },
   social: { type: SocialSchema, default: () => ({}) },
+  // comments: { type: CommentSchema, default: () => ({}) },
+  comments: {
+    type: Array,
+    comment: [
+      {
+        commentUser: {
+          type: String,
+        },
+        text: {
+          type: String,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+  },
   owners: {
     type: Array,
     default: [001],

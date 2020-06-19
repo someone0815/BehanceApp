@@ -17,23 +17,31 @@
           <a class="item">Discover</a>
         </div>
       </router-link>
-      <div class="item-holder"><a class="item">Live</a></div>
-      <div class="item-holder"><a class="item">Jobs</a></div>
+      <!-- <div class="item-holder"><a class="item">Live</a></div> -->
+      <!-- <div class="item-holder"><a class="item">Jobs</a></div> -->
       <router-link to="/about">
         <div class="item-holder"><a class="item">About</a></div>
       </router-link>
-
+      <router-link to="/settings">
+        <div class="item-holder"><a class="item">Settings</a></div>
+      </router-link>
+      <router-link to="/editor">
+        <div class="item-holder"><a class="item">Editor</a></div>
+      </router-link>
+      <a href=""
+         class="btn mail"
+         v-if="isLoggedIn"><span>Create a Project</span></a>
       <div class="socialgroup"
            v-if="!isLoggedIn">
         <a href=""
            class="btn mail"><span>Sign Up With Email</span></a>
-        <div class="item-holder"><a class="or">or</a></div>
+        <!-- <div class="item-holder"><a class="or">or</a></div>
         <a href=""
            class="btn apple"> </a>
         <a href=""
            class="btn facebook"></a>
         <a href=""
-           class="btn google"></a>
+           class="btn google"></a> -->
       </div>
     </div>
     <div class="login">
@@ -42,20 +50,34 @@
           <a class="item "><i class="fas fa-search"></i></a>
         </div>
       </div>
-      <div class="signin visible">
+      <div class="item-holder visible"
+           v-if="isLoggedIn">
+        <a class="item "><i class="fas fa-envelope"></i></a>
+      </div>
+      <div class="item-holder"
+           v-if="isLoggedIn">
+        <a class="item "><i class="fas fa-bell"></i></a>
+      </div>
+      <div class="signin ">
         <router-link to="/signin"
                      v-if="!isLoggedIn">
           <div class="item-holder"><a class="item">Sign In</a></div>
         </router-link>
         <router-link :to="{ path: '/profile/' + user.username + '/work' }"
                      v-if="isLoggedIn">
-          <div class="item-holder"><a class="item">Profile</a></div>
+          <div class="item-holder"><a class="item profileitem"><img v-if="user"
+                   v-bind:src="user.profile.profileimg"
+                   alt=""></a></div>
         </router-link>
+        <!-- <div class="item-holder visible">
+          <a class="item "><i class="fas fa-layer-group"></i></a>
+        </div> -->
         <router-link to="/logout"
                      v-if="isLoggedIn">
-          <div class="item-holder">
+
+          <div class="item-holder visible">
             <a class="item"
-               @click.prevent="logoutUser">Logout</a>
+               @click.prevent="logoutUser"><i class="fas fa-sign-out-alt"></i></a>
           </div>
         </router-link>
       </div>
@@ -70,7 +92,7 @@
 </template>
 
 <script>
-import Logo from '../assets/logo.vue';
+import Logo from '../../assets/logo.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 // const applelogo = require('@/src/assets/apple-256.png');
@@ -101,6 +123,23 @@ export default {
 </script>
 
 <style scoped>
+.profileitem {
+  height: -webkit-fill-available;
+  height: -moz-fill-available;
+  padding: 16px !important;
+}
+
+img {
+  height: -webkit-fill-available;
+  height: -moz-fill-available;
+  /* max-height: 53px; */
+  border-radius: 100%;
+  max-height: 33px;
+  border-radius: 100%;
+  top: 1px;
+  position: relative;
+}
+
 @media only screen and (max-width: 1060px) {
   .visible {
     display: none !important;
@@ -141,7 +180,7 @@ a {
   /* align-self: flex-end; */
   margin: 0px 0px 0px -1.25em;
 }
-.btn {
+/* .btn {
   min-width: 34px;
   background-color: #0057ff;
   background-image: none;
@@ -165,7 +204,7 @@ a {
   -ms-user-select: none;
   user-select: none;
   margin: 13px;
-}
+} */
 .mail:hover {
   background-color: #003ecb;
 }
@@ -174,7 +213,7 @@ a {
   background-position: 50% 40%;
   background-size: 56%;
   background-repeat: no-repeat;
-  background-image: url('../assets/apple-256.png');
+  background-image: url('../../assets/apple-256.png');
   margin-right: 0;
 }
 .facebook {
@@ -182,7 +221,7 @@ a {
   background-position: center;
   background-size: 27%;
   background-repeat: no-repeat;
-  background-image: url('../assets/facebook-256.png');
+  background-image: url('../../assets/facebook-256.png');
   margin-right: 0;
 }
 .google {
@@ -190,7 +229,7 @@ a {
   background-position: center;
   background-size: 54%;
   background-repeat: no-repeat;
-  background-image: url('../assets/google-256.png');
+  background-image: url('../../assets/google-256.png');
   margin-left: 0.7em;
 }
 .apple:hover,
@@ -250,7 +289,7 @@ a {
   top: 0px;
   width: 100%;
   background: #191919;
-  height: 60px;
+  /* height: 60px; */
   box-sizing: border-box;
   padding: 0em 1.25em 0em 1.25em;
   flex-wrap: wrap;

@@ -23,6 +23,7 @@ router.post(
   (req, res) => {
     if (captcha.check(req, res)) {
       let { name, username, email, password, confirm_password } = req.body;
+      let role = 'user';
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -80,6 +81,7 @@ router.post(
         username,
         password,
         email,
+        role,
       });
       // Hash password
       bcrypt.genSalt(10, (err, salt) => {
@@ -128,14 +130,18 @@ router.post('/login', (req, res) => {
               _id: user._id,
               username: user.username,
               name: user.name,
-              email: user.email,
+              email: user.email, //user.profile,
+              profile: {
+                profileimg: user.profile.profileimg,
+              },
+              role: user.role,
             };
             jwt.sign(payload, key, { expiresIn: 604800 }, (err, token) => {
               res.status(200).json({
                 success: true,
                 token: `Bearer ${token}`,
 
-                user: payload, // instead of useruser
+                user: payload, // instead of user
                 msg: 'You are now logged in.',
               });
             });

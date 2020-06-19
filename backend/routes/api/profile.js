@@ -13,15 +13,22 @@ const Project = require('../../model/Project');
 // const captcha = require('../captcha');
 router.get(
   '/:username',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    // console.log('object');
+    // console.log(req.user);
+    // if (req.user.username == req.params.username) {
+    //   console.log('IS USER');
+    // } else {
+    //   console.log('not user');
+    // }
     User.findOne({ username: req.params.username }).then((user) => {
       if (user) {
         return res.status(200).json({
           user: {
             name: user.name,
             email: user.email,
-            uername: user.username,
+            username: user.username,
             profile: user.profile,
           },
           success: true,
@@ -50,23 +57,34 @@ router.get(
 //  *@access Public
 //  */
 router.get(
-  '/projects/:username',
-  passport.authenticate('jwt', { session: false }),
+  '/projects/:username&:amount&:index',
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Project.find({ owners: req.params.username })
-      .select('title owners social thumbnail')
+    // console.log(req.user);
+    // if (req.user.username == req.params.username) {
+    //   console.log('IS USER');
+    // } else {
+    //   console.log('not user');
+    //   // return;
+    // }l
+    Project.find({
+      $or: [
+        { submitter: req.params.username },
+        { involved: req.params.username },
+      ],
+    })
+      .limit(parseInt(req.params.amount))
+      .sort({ _id: -1 })
+      .skip(
+        parseInt(req.params.amount) * Math.max(0, parseInt(req.params.index))
+      )
+      .select('title owners submitter involved social thumbnail')
       .exec((err, project) => {
         if (project) {
           User.find({ username: req.params.username })
             .select('name username profile.profileimg')
             .exec((err, owners) => {
-              console.log(err);
-              if (!err) {
-                return res.status(200).json({
-                  projects: project,
-                  ownersInfo: owners,
-                });
-              } else {
+              if (err) {
                 return res.status(404).json({
                   errors: {
                     0: {
@@ -77,13 +95,17 @@ router.get(
                   success: false,
                 });
               }
+              return res.status(200).json({
+                projects: project,
+                ownersInfo: owners,
+              });
             });
         } else {
           return res.status(404).json({
             errors: {
               0: {
                 msg: 'Project not found.',
-                param: 'Check url.',
+                param: project,
               },
             },
             success: false,

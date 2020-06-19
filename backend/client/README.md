@@ -65,12 +65,13 @@ serve -s dist
     - [x] Sign In
     - [x] Sign Up
     - [x] Profile
-    - [ ] Project
+    - [x] Project
+      - [x] Comments
     - [ ] Project Builder
-    - [ ] ~~Livestreams~~
-    - [ ] ~~Jobs~~
+    - [x] ~~Livestreams~~
+    - [x] ~~Jobs~~
     - [x] 404
-    - [ ] Placeholder
+    - [ ] Loading Placeholder
     - [ ] ~~GDPR~~
   - [ ] State
     - [ ] Categories

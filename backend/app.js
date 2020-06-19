@@ -5,8 +5,12 @@ const path = require('path');
 const cors = require('cors');
 const passport = require('passport');
 
+global.__basedir = __dirname;
+// var dash = require('appmetrics-dash').attach();
+
 //Init the app
 const app = express();
+app.use(require('express-status-monitor')());
 
 //Middlewares
 // Form Data Middleware
@@ -39,16 +43,35 @@ mongoose
   })
   .catch((err) => console.log(`Unable to connect with the database ${err}`));
 
+app.use(express.static(__dirname + '/public'));
+
 const auth = require('./routes/api/auth');
 app.use('/api/users', auth);
 const profile = require('./routes/api/profile');
 app.use('/api/profile', profile);
 const project = require('./routes/api/project');
 app.use('/api/project', project);
+const comment = require('./routes/api/comment');
+app.use('/api/comment', comment);
+const frontpage = require('./routes/api/frontpage');
+app.use('/api/frontpage', frontpage);
+const editor = require('./routes/api/editor');
+app.use('/api/editor', editor);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+app.use((err, req, res, next) => {
+  if (err.code == 'INCORRECT_FILETYPE') {
+    res.status(422).json({ error: 'Only images are allowed' });
+    return;
+  }
+  if (err.code == 'LIMIT_FILE_SIZE') {
+    res.status(422).json({ error: 'Allowed file size is 500KB' });
+    return;
+  }
 });
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public/index.html'));
+// });
 
 // Bring in the Captcha route
 // const captcha = require('./routes/captcha');

@@ -2,11 +2,10 @@
   <div id="sign">
     <div class="bg"></div>
     <div class="signcontainer">
-      <router-link class="holder left" to="/">
-        <img
-          class="icon"
-          src="https://static.adobelogin.com/clients/bhnc_22989526-955d-49e3-9a7d-f093e8f3dbf5/4x_ae636b0f623792081b77838920fee109.png"
-        />
+      <router-link class="holder left"
+                   to="/">
+        <img class="icon"
+             src="https://static.adobelogin.com/clients/bhnc_22989526-955d-49e3-9a7d-f093e8f3dbf5/4x_ae636b0f623792081b77838920fee109.png" />
         <div class="logo">Behance</div>
       </router-link>
       <div class="holder">
@@ -17,32 +16,33 @@
               <span>New User? </span>
               <a @click="showRegister">Create an account.</a>
             </p>
-            <form action="" @submit.prevent="loginUser">
-              <Errors v-if="error" :errorss="error" />
-              <label class="inputlabel" for="email" id="login-email"
-                >Email address</label
-              >
-              <input type="text" placeholder="" name="email" v-model="email" />
+            <form action=""
+                  @submit.prevent="loginUser">
+              <Errors v-if="error"
+                      :errorss="error" />
+              <label class="inputlabel"
+                     for="email"
+                     id="login-email">Email address</label>
+              <input type="text"
+                     placeholder=""
+                     name="email"
+                     v-model="email" />
               <br />
-              <label class="inputlabel" for="password" id="login-password"
-                >Password</label
-              >
-              <input
-                type="password"
-                placeholder=""
-                name="password"
-                v-model="password"
-              />
+              <label class="inputlabel"
+                     for="password"
+                     id="login-password">Password</label>
+              <input type="password"
+                     placeholder=""
+                     name="password"
+                     v-model="password" />
               <div id="signinanchor"></div>
               <br />
               <br />
-              <input type="submit" value="Continue" />
+              <input type="submit"
+                     value="Continue" />
 
-              <span
-                v-if="authState == 'loading' && error == null"
-                class="loading"
-                ><img :src="mySVG" /> Logging in..</span
-              >
+              <span v-if="authState == 'loading' && error == null"
+                    class="loading"><img :src="mySVG" /> Logging in..</span>
             </form>
           </div>
         </div>
@@ -51,74 +51,66 @@
             <h2>Sign up</h2>
             <p>Already have an account? <a @click="showLogin">Sign in.</a></p>
 
-            <form action="" @submit.prevent="registerUser">
-              <Errors v-if="error" :errorss="error" />
-              <label for="username" class="inputlabel">Username</label> <br />
-              <input
-                type="text"
-                placeholder=""
-                name="username"
-                v-model="username"
-              />
+            <form action=""
+                  @submit.prevent="registerUser">
+              <Errors v-if="error"
+                      :errorss="error" />
+              <label for="username"
+                     class="inputlabel">Username</label> <br />
+              <input type="text"
+                     placeholder=""
+                     name="username"
+                     v-model="username" />
               <br />
-              <label for="name" class="inputlabel">Name</label> <br />
-              <input
-                id="name"
-                type="text"
-                placeholder=""
-                name="name"
-                v-model="name"
-              />
+              <label for="name"
+                     class="inputlabel">Name</label> <br />
+              <input id="name"
+                     type="text"
+                     placeholder=""
+                     name="name"
+                     v-model="name" />
               <br />
-              <label for="email" class="inputlabel">Email</label> <br />
-              <input
-                id="email"
-                type="text"
-                placeholder=""
-                name="email"
-                v-model="email"
-              />
+              <label for="email"
+                     class="inputlabel">Email</label> <br />
+              <input id="email"
+                     type="text"
+                     placeholder=""
+                     name="email"
+                     v-model="email" />
               <br />
-              <label for="password" class="inputlabel">Password</label> <br />
-              <input
-                type="password"
-                placeholder=""
-                name="password"
-                v-model="password"
-              />
+              <label for="password"
+                     class="inputlabel">Password</label> <br />
+              <input type="password"
+                     placeholder=""
+                     name="password"
+                     v-model="password" />
               <br />
-              <label for="confirm_password" class="inputlabel"
-                >Confirm Password</label
-              >
+              <label for="confirm_password"
+                     class="inputlabel">Confirm Password</label>
               <br />
-              <input
-                type="password"
-                placeholder=""
-                name="confirm_password"
-                v-model="confirm_password"
-              />
+              <input type="password"
+                     placeholder=""
+                     name="confirm_password"
+                     v-model="confirm_password" />
               <br />
               <div id="signupanchor"></div>
               <br />
-              <input type="submit" value="Sign Up" />
+              <input type="submit"
+                     value="Sign Up" />
             </form>
           </div>
         </div>
         <div>
-          <vue-recaptcha
-            id="recaptcha"
-            sitekey="6LewOvwUAAAAAI-HnAE4R1EaHCcjE0d1lrLMhJzH"
-            @render="render"
-            @expired="expired"
-          ></vue-recaptcha>
+          <vue-recaptcha id="recaptcha"
+                         sitekey="6LewOvwUAAAAAI-HnAE4R1EaHCcjE0d1lrLMhJzH"
+                         @render="render"
+                         @expired="expired"></vue-recaptcha>
         </div>
       </div>
     </div>
     <div class="source">
-      <img
-        class="software"
-        src="https://auth.services.adobe.com/img/attributions/Behance.svg"
-      />
+      <img class="software"
+           src="https://auth.services.adobe.com/img/attributions/Behance.svg" />
       <div class="sourcetxt">Tom Anders Wilkens</div>
     </div>
   </div>
@@ -127,14 +119,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 // import Register from './Register.vue';
-import Errors from '../components/notifications/Error.vue';
+import Errors from '../views/components/Error.vue';
 import VueRecaptcha from 'vue-recaptcha';
 // import vue-grecaptcha from ''
 
 export default {
   components: {
     Errors,
-    VueRecaptcha,
+    VueRecaptcha
   },
   data() {
     return {
@@ -143,7 +135,7 @@ export default {
       confirm_password: '',
       name: '',
       email: '',
-      mySVG: require('../assets/loading.svg'),
+      mySVG: require('../assets/loading.svg')
     };
   },
   mounted: function() {
@@ -192,21 +184,21 @@ export default {
       let user = {
         email: this.email,
         password: this.password,
-        captcha: captcha,
+        captcha: captcha
       };
       this.login(user)
-        .then((res) => {
+        .then(res => {
           console.log('res');
           window.grecaptcha.reset(0);
           if (res.data.success) {
             this.$router
               .push(`/profile/${res.data.user.username}/work`)
-              .catch((err) => console.log(err));
+              .catch(err => console.log(err));
             console.log(`Logged in successfully : ${res.data.success}`);
             console.log(res);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -219,10 +211,10 @@ export default {
         confirm_password: this.confirm_password,
         email: this.email,
         name: this.name,
-        captcha: captcha,
+        captcha: captcha
       };
       this.register(user)
-        .then((res) => {
+        .then(res => {
           console.log('resdata');
           console.log(res);
           window.grecaptcha.reset(0);
@@ -232,14 +224,14 @@ export default {
             this.showLogin();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log('errx');
           this.error;
           console.log(err);
         });
-    },
+    }
   },
-  computed: mapGetters(['authState', 'error']),
+  computed: mapGetters(['authState', 'error'])
 };
 </script>
 

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "source",
+    "img": "https://icons8.com/icons/set/adobe"
+  },
+  {
+    "type": "photoshop",
+    "img": "https://a5.behance.net/cdf7048c3f31c0808a1e6cc64d58bbb0ed3df389/img/project/tools/1x/photoshop.png"
+  },
+  {
+    "type": "illustrator",
+    "img": "https://a5.behance.net/cdf7048c3f31c0808a1e6cc64d58bbb0ed3df389/img/project/tools/1x/illustrator.png"
+  },
+
+  {
+    "type": "indesign",
+    "img": "https://a5.behance.net/cdf7048c3f31c0808a1e6cc64d58bbb0ed3df389/img/project/tools/1x/indesign.png"
+  },
+
+  {
+    "type": "Cinema 4D",
+    "img": "https://upload.wikimedia.org/wikipedia/en/d/d8/C4D_Logo.png"
+  },
+  {
+    "type": "Autodesk 3ds Max",
+    "img": "https://blogs.autodesk.com/presse-center-deutschland/wp-content/uploads/sites/93/2016/08/Autodesk-logo-e1468255451527.png"
+  }
+]

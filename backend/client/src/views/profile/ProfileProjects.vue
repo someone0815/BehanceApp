@@ -10,15 +10,17 @@
            v-bind:key="project.id"
            v-bind:project="project"
            v-bind:index="index" />
+
   </div>
 </template>
 
 <script>
-import CardB from '../components/home/sections/CardB.vue';
+import CardB from '../components/CardB.vue';
+
 import { mapGetters } from 'vuex';
 
 export default {
-  computed: mapGetters(['user', 'allProjects']),
+  computed: mapGetters(['user']),
   props: {
     projects: Array
   },
@@ -38,31 +40,6 @@ export default {
 </script>
 
 <style scoped>
-@media only screen and (max-width: 1400px) {
-  .cardcontainer {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-@media only screen and (max-width: 1100px) {
-  .cardcontainer {
-    grid-template-columns: 1fr 1fr 1fr !important;
-  }
-}
-@media only screen and (max-width: 900px) {
-  .cardcontainer {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-/* @media only screen and (max-width: 900px) {
-  .cardcontainer {
-    grid-template-columns: 1fr 1fr !important;
-  }
-} */
-@media only screen and (max-width: 550px) {
-  .cardcontainer {
-    grid-template-columns: 1fr !important;
-  }
-}
 .cardcontainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

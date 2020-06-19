@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '../views/Home.vue';
-import Discover from '../views/Discover.vue';
+// import Home from '../views/landingpage/Home.vue';
+import Discover from '../views/landingpage/discover/Discover.vue';
+import Projects from '../views/project/Project.vue';
+// component: () => import('../views/project/Project.vue'),
+
 import store from '../store/modules/auth';
 
 Vue.use(Router);
@@ -15,15 +18,6 @@ const router = new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home,
-      meta: {
-        requiresGuest: false,
-        requiresAuth: false,
-      },
-    },
-    {
-      path: '/discover',
-      name: 'Home',
       component: Discover,
       meta: {
         requiresGuest: false,
@@ -31,9 +25,22 @@ const router = new Router({
       },
     },
     {
+      path: '/discover',
+      name: 'Discover',
+      // component: Discover,
+      meta: {
+        requiresGuest: false,
+        requiresAuth: false,
+      },
+      components: {
+        default: Discover,
+        a: Projects,
+      },
+    },
+    {
       path: '/about',
       name: 'About',
-      component: () => import('../views/About.vue'),
+      component: () => import('../views/landingpage/About.vue'),
       meta: {
         requiresGuest: false,
         requiresAuth: false,
@@ -49,9 +56,31 @@ const router = new Router({
       },
     },
     {
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('../views/Settings.vue'),
+      meta: {
+        requiresGuest: false,
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/editor',
+      name: 'Editor',
+      component: () => import('../views/editor/Editor.vue'),
+      meta: {
+        requiresGuest: false,
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/gallery/:id',
       name: 'Project',
-      component: () => import('../views/Project.vue'),
+      // component: () => import('../views/project/Project.vue'),
+      components: {
+        default: Projects,
+        a: Projects,
+      },
       meta: {
         requiresGuest: false,
         requiresAuth: false,
@@ -60,26 +89,49 @@ const router = new Router({
     {
       path: '/profile/:id',
       name: 'Profile',
-      component: () => import('../views/Profile.vue'),
+      component: () => import('../views/profile/Profile.vue'),
       meta: {
         requiresGuest: false,
-        requiresAuth: true,
+        requiresAuth: false,
       },
       children: [
         {
           path: 'work',
           name: 'Work',
-          component: () => import('../views/ProfileWork.vue'),
+          component: () => import('../views/profile/ProfileWork.vue'),
+          // props: { username: String },
+          meta: {
+            requiresGuest: false,
+            requiresAuth: false,
+          },
         },
         {
           path: 'moodboards',
           name: 'Moodboards',
-          component: () => import('../views/UnderConstruction.vue'),
+          component: () => import('../views/profile/UnderConstruction.vue'),
+          meta: {
+            requiresGuest: false,
+            requiresAuth: true,
+          },
         },
+
         {
           path: 'appreciations',
           name: 'Appreciations',
-          component: () => import('../views/UnderConstruction.vue'),
+          component: () => import('../views/profile/UnderConstruction.vue'),
+          meta: {
+            requiresGuest: false,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'insights',
+          name: 'Insights',
+          component: () => import('../views/profile/UnderConstruction.vue'),
+          meta: {
+            requiresGuest: false,
+            requiresAuth: true,
+          },
         },
       ],
     },
@@ -108,13 +160,19 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requiresGuest) &&
     store.state['loggedin']
   ) {
-    console.log('requires guest and logged out');
-    console.log(store.getters.isLoggedIn);
+    console.log(
+      `requires guest and logged out, currently: ${store.getters.isLoggedIn}`
+    );
     next({ path: '/discover' });
     // next({ name: 'Profile' });
   } else {
     next();
   }
+  // if (to.path == '/settings' && to.hash == '') {
+  //   next({ path: '/settings#section-2' });
+  //   console.log(to);
+  //   console.log('xx');
+  // }
 });
 
 export default router;

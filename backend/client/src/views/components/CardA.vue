@@ -1,63 +1,54 @@
 <template>
   <div class="card">
     <div class="cover"
-         @mouseenter="hoverEnter(index)"
+         @mouseenter="show = index"
          @mouseleave="show = null">
-      <div class="img-holder">
-        <img class="thumb"
-             :src="project.thumbnail" />
-      </div>
+      <div class="img-holder"><img class="thumb"
+             :src="project.thumbnail" /></div>
       <div :class="[show == index ? 'gradient' : '']"
            class="backdrop visible"></div>
-      <div class="txt-holder visible"
-           :class="[show == index ? 'is-hover' : '']">
-        <span class="visible">{{ project.title }}</span>
-        <br />
-        <div class="multiple"
-             v-if="Object.keys(project.owners).length > 1">
-
-          <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
-        </div>
-        <div class="author"
-             v-else>
-          <a href="">{{ allProfileProjects.ownersInfo[0].name }} </a>
-        </div>
-
-        <div class="social">
-          <i class="fas fa-thumbs-up"></i>
-          <span class="likes">{{
-            new Intl.NumberFormat().format(project.social.apperciations)
+      <div class="txt-holder">
+        <span class="visible"
+              :class="[show == index ? 'is-hover' : '']">{{
+            project.title
           }}</span>
-          <i class="fas fa-eye"></i>
-          <span class="views">{{
-            new Intl.NumberFormat().format(project.social.projectviews)
-          }}</span>
-        </div>
       </div>
     </div>
-    <!-- <div class="subcover"></div> -->
+    <div class="subcover">
+      <div class="multiple"
+           v-if="Object.keys(project.involved).length > 0">
+        <a>Multiple Owners </a><i class="fas fa-caret-down"></i>
+      </div>
+      <div class="author"
+           v-else>
+        <!-- project.profileimg -->
+        <a href="">{{ project.submitter}} </a>
+      </div>
+      <div class="social">
+        <i class="fas fa-thumbs-up"></i>
+        <span class="likes">{{
+            new Intl.NumberFormat().format(project.social.apperciations)
+          }}</span>
+        <i class="fas fa-eye"></i>
+        <span class="views">{{
+            new Intl.NumberFormat().format(project.social.projectviews)
+          }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 export default {
   name: 'CardA',
   data: () => ({
     show: null
   }),
-  methods: {
-    hoverEnter(index) {
-      this.show = index;
-      // console.log(index);
-    }
-  },
+
   created() {
     // this.limit = 35;
-    // console.log(this.show);
-    // console.log(this.ownerInfo);
+    // console.log(this.index);
   },
-  computed: mapGetters(['allProfileProjects']),
   props: {
     project: Object,
     index: Number
@@ -66,7 +57,7 @@ export default {
 </script>
 
 <style scoped>
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 605px) {
   .visible {
     color: white;
     display: inline-block !important;
@@ -79,7 +70,6 @@ div {
 span {
   transition: color 0.2s ease;
 }
-
 .holder {
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -131,7 +121,7 @@ span {
   width: 20px;
 }
 .author {
-  /* font-weight: bold; */
+  font-weight: bold;
   font-size: 13px;
   line-height: 1.3;
   -webkit-box-flex: 1;
@@ -141,12 +131,9 @@ span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  float: left;
-  position: relative;
-  top: 4px;
 }
 .multiple {
-  font-weight: 300;
+  font-weight: bold;
   font-size: 13px;
   line-height: 1.3;
   margin-top: 2px;
@@ -157,24 +144,16 @@ span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  float: left;
-  position: relative;
-  color: white;
-  top: 4px;
-}
-
-.multiple a {
-  color: white;
 }
 
 .author a {
   position: relative;
-  /* top: -5px; */
-  /* margin-left: 4px; */
+  top: -5px;
+  margin-left: 4px;
   /* font-size: 13px; */
-  font-weight: 300;
-  /* background-color: #f9f9f9; */
-  color: white;
+  font-weight: bold;
+  background-color: #f9f9f9;
+  color: #2b2b2b;
   font-family: 'acumin-pro', 'Acumin Pro', 'Helvetica Neue', Helvetica, Arial,
     sans-serif;
   font-size: 13px;
@@ -189,16 +168,14 @@ a:hover {
   text-decoration: underline;
 }
 .social {
-  color: white;
-  float: right;
+  color: #696969;
+  margin-top: -4px;
 }
 .social span {
   padding-left: 4px;
-  /* font-weight: bold; */
+  font-weight: bold;
   font-size: 12px;
   cursor: default;
-  cursor: pointer;
-  /* font-weight: 300; */
 }
 .social i {
   font-size: 13px;
@@ -208,20 +185,16 @@ a:hover {
   position: absolute;
   bottom: 5px;
   margin: 0px 15px 5px 15px;
-  color: white;
+  color: transparent;
   font-weight: bold;
-  width: -webkit-fill-available;
-  width: -moz-available;
-  opacity: 0;
 }
 .is-hover {
-  /* color: red !important; */
-  opacity: 1;
+  color: white;
 }
 .backdrop {
   position: absolute;
   bottom: 0px;
-  height: 40%;
+  height: 25%;
   width: 100%;
   /* margin: 0px 15px 5px 15px; */
   color: transparent;
@@ -229,8 +202,8 @@ a:hover {
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.7) 50%,
-    rgba(0, 0, 0, 0.93) 100%
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.8) 100%
   );
   opacity: 0;
 }

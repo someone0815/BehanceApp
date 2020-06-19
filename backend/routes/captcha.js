@@ -13,9 +13,15 @@ module.exports = {
       req.body.captcha === '' ||
       req.body.captcha === null
     ) {
-      return res
-        .status(404)
-        .json({ captchasuccess: false, msg: 'Please select captcha.' });
+      return res.status(404).json({
+        errors: {
+          0: {
+            msg: 'Captcha error.',
+            param: 'Please click Captcha box',
+          },
+        },
+        success: false,
+      });
     }
 
     // Verify URL
@@ -26,8 +32,13 @@ module.exports = {
       // If not successful
       if (body.success !== undefined && !body.success) {
         return res.status(404).json({
-          captchasuccess: false,
-          msg: 'Failed captcha verification.',
+          errors: {
+            0: {
+              msg: 'Captcha error.',
+              param: 'Failed verification',
+            },
+          },
+          success: false,
         });
       }
       // If successful

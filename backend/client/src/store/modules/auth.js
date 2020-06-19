@@ -57,7 +57,7 @@ const actions = {
         'http://192.168.2.104:5000/api/users/register',
         userData
       );
-      console.log('object');
+      // console.log('object');
       console.log(res);
       if (res.data.success !== undefined) {
         commit('register_success');

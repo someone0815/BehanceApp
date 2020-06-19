@@ -5,6 +5,7 @@ import projects from './modules/projects';
 import auth from './modules/auth';
 import project from './modules/project';
 import profile from './modules/profile';
+import editor from './modules/editor';
 
 Vue.use(VueX);
 
@@ -14,6 +15,7 @@ export default new VueX.Store({
     auth,
     project,
     profile,
+    editor,
   },
 });
 

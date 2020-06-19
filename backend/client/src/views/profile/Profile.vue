@@ -15,6 +15,8 @@
       <div class="profilesidebar">
         <div class="profileavatar">
           <img :src="visitingprofile.profile.profileimg" />
+          <div class="addprofileimg"
+               v-if="userIsProfileOwner"><i class="fas fa-plus addprofileimage"></i></div>
         </div>
         <!-- <br /> -->
         <h2>{{ visitingprofile.name }}</h2>
@@ -27,10 +29,16 @@
           {{ visitingprofile.profile.location }}</a>
         <!-- <br /> -->
         <div class="br"></div>
-        <div class="buttongroup">
-          <button class="follow">Follow</button>
-          <button class="message">Message</button>
+        <div class="buttongroup"
+             v-if="!userIsProfileOwner">
+          <button class="button follow">Follow</button>
+          <button class="button message">Message</button>
         </div>
+        <!-- <div class="buttongroup logged" -->
+        <!-- > -->
+        <button class="button edit"
+                v-else>Edit Your Profile</button>
+        <!-- </div> -->
         <div class="br"></div>
         <div class="br"></div>
         <div class="loadmore"
@@ -70,7 +78,14 @@
         </div>
       </div>
       <div class="profilecontents">
-        <div class="featureslist"></div>
+
+        <div class="featureslist"
+             v-if="Object.keys(visitingprofile.profile.features).length > 0">
+          <!-- <span v-for="feature in visitingprofile.profile.features"
+                :key="feature.type">
+            {{feature.type}}
+          </span> -->
+        </div>
         <div class="profiletab">
           <!-- <li>Info</li> -->
           <router-link class="stats"
@@ -85,13 +100,18 @@
                        :to="{ path: '/profile/' + $route.params.id + '/appreciations' }">
             <a class="item">Appreciations</a>
           </router-link>
+          <router-link class="stats"
+                       v-if="userIsProfileOwner"
+                       :to="{ path: '/profile/' + $route.params.id + '/insights' }">
+            <a class="item">Insights</a>
+          </router-link>
           <!-- <li>Work</li> -->
           <!-- <li>Moodboards</li> -->
           <!-- <li>Appreciations</li> -->
           <!-- <div class="gradient"></div> -->
         </div>
         <div class="projectcontainer">
-          <router-view />
+          <router-view :username="$route.params.id" />
           <!-- <Projects
             v-for="group in groupSize"
             v-bind:key="group.id"
@@ -117,6 +137,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   computed: mapGetters([
+    'user',
     'error',
     'profile_error',
     'visitingprofile',
@@ -125,7 +146,8 @@ export default {
   data: () => ({
     containerElm: null,
     dataLoaded: false,
-    notfound: false
+    notfound: false,
+    userIsProfileOwner: false
   }),
   components: {
     // ProfileProjects
@@ -152,10 +174,17 @@ export default {
         this.notfound = true;
         return;
       }
-
       this.dataLoaded = true;
       // console.log(this.$refs.banner);
       this.$refs.banner.style.backgroundImage = `url('${this.visitingprofile.profile.profilebanner}')`;
+      console.log('user');
+      console.log(this.user.username);
+      console.log('visitingprofile');
+      console.log(this.visitingprofile);
+      if (this.user.username == this.visitingprofile.username) {
+        this.userIsProfileOwner = true;
+        console.log('is User');
+      }
     });
 
     // const myElement = document.getElementById('banner')[0];
@@ -171,6 +200,32 @@ export default {
 </script>
 
 <style scoped>
+i.fas.fa-plus {
+  color: white;
+}
+.addprofileimg {
+  float: right;
+  background-color: #0057ff;
+  /* position: relative; */
+  /* bottom: 10px; */
+  border-radius: 100%;
+  width: 30px;
+  position: relative;
+  top: -30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .profilesidebar {
+    padding: 0px !important;
+  }
+}
+
 @media only screen and (max-width: 1100px) {
   .wrapper {
     grid-template-columns: 1fr 1fr !important;
@@ -192,17 +247,18 @@ export default {
     background-color: transparent !important;
     box-shadow: none !important;
   }
-  .profileavatar {
-    border: 10px solid #f9f9f9;
-    border-radius: 100%;
-  }
+  /* .profileavatar { */
+  /* border: 10px solid #f9f9f9;
+    border-radius: 100%; */
+  /* } */
 
   .profiletab {
+    margin-top: 25px;
     margin-left: auto !important;
     margin-right: auto !important;
-    display: flex;
+    display: grid;
+    text-align-last: center;
     justify-content: center;
-    /* max-width: 360px; */
   }
   div.profiletab > a.stats:nth-child(1) > a {
     margin-left: 0px !important;
@@ -214,6 +270,9 @@ export default {
     position: relative;
     top: -5em;
   }
+}
+.profiletab {
+  margin-top: 25px;
 }
 
 .notfound {
@@ -261,7 +320,7 @@ a.item {
 }
 .featureslist {
   width: 100%;
-  height: 100px;
+  height: 75px;
   /* background-color: #656565; */
 }
 .report {
@@ -324,18 +383,22 @@ a.item {
   grid-template-columns: 1fr 1fr;
   width: 100%;
 }
-.follow,
-.message {
+.button {
   height: 3em;
   border-radius: 10em;
   font-weight: 700;
   cursor: pointer;
   line-height: -10px;
-}
-.follow {
   border: 0px;
   color: white;
   background-color: #0057ff;
+}
+
+/* .message {
+} */
+.edit {
+  width: -webkit-fill-available;
+  width: -moz-available;
 }
 .message {
   border: 2px solid lightgray;
@@ -344,7 +407,8 @@ a.item {
 }
 
 h2 {
-  margin: 1em 1em 0.45em 1em;
+  margin: 0em 1em 0.45em 1em;
+  text-align: center;
 }
 .site {
   margin: 0em 1em 0.8em 1em;
@@ -370,6 +434,8 @@ a:visited {
   border-radius: 100%;
   display: flex;
   justify-content: center;
+  border: 10px solid #f9f9f9;
+  border-radius: 100%;
 }
 .back {
   background-color: #f9f9f9;

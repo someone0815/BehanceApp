@@ -3,25 +3,83 @@
     <Navbar />
 
     <router-view />
+    <!-- <router-view name="a"
+                 paramsid="5edb0966bfcba65018c45b34"
+                 class="proj" /> -->
   </div>
 </template>
 
 <script>
 // import { mapGetters } from 'vuex';
-import Navbar from './components/Navbar.vue';
+import Navbar from '../src/views/components/Navbar.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    Navbar
   },
   created() {},
   destroyed() {},
-  computed: {},
+  computed: {}
 };
 </script>
 
 <style>
+.proj {
+  position: fixed;
+  top: 0px;
+  z-index: 900;
+  /* background-color: transparent; */
+  height: 100%;
+  overflow-y: scroll;
+}
+i.fas.fa-arrow-down {
+  top: 1px;
+  position: relative;
+  margin-left: 5px;
+}
+button.link {
+  background-color: transparent;
+  font-weight: 600;
+  border: 0px;
+  color: #0057ff;
+  width: 100%;
+  /* margin: auto; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  cursor: pointer;
+  padding: 10px;
+}
+
+.btn:hover {
+  /* filter: brightness(75%); */
+  background-color: #003ecb;
+}
+.btn {
+  min-width: 34px;
+  background-color: #0057ff;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 7px 25px 8px;
+  text-shadow: none;
+  transition-duration: 100ms;
+  text-decoration: none;
+  transition-property: background, color, border;
+  transition-timing-function: linear;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 13px;
+}
 html {
   background-color: #f9f9f9;
 }

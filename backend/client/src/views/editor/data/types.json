@@ -1,0 +1,18 @@
+{
+  "img": {
+    "type": "img",
+    "url": "img"
+  },
+  "text": {
+    "type": "text",
+    "url": "text"
+  },
+  "link": {
+    "type": "link",
+    "url": "link"
+  },
+  "grid": {
+    "type": "grid",
+    "url": "grid"
+  }
+}

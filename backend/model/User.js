@@ -47,6 +47,10 @@ const ProfileSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  features: {
+    type: Array,
+    default: 0,
+  },
   followers: {
     type: Array,
     default: {},
@@ -77,6 +81,10 @@ const UserSchema = mongoose.Schema({
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  role: {
     type: String,
     required: true,
   },
